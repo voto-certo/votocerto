@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../module/shared-module';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,9 +10,9 @@ import { SharedModule } from '../../module/shared-module';
   styleUrl: './nav-menu.component.scss'
 })
 export class NavMenuComponent {
-  opened = true;
-
-  togglenav() {
-    this.opened = !this.opened;
+  
+  constructor(private utilService: UtilService) { }
+  openDialog() {
+    this.utilService.openInfoDialog();
   }
 }

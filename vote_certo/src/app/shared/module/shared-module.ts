@@ -11,7 +11,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -25,9 +34,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatListModule,
     MatIconModule,
     MatMenuModule,
-    MatCardModule, 
+    MatCardModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    FormsModule, ReactiveFormsModule,
+    MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule
   ],
   exports: [
     FlexLayoutModule,
@@ -41,7 +53,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatMenuModule,
     MatCardModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    FormsModule, ReactiveFormsModule,
+    MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule
   ]
 })
 export class SharedModule { }
