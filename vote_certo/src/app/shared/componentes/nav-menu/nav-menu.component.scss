@@ -1,0 +1,22 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+nav a {
+  text-transform: uppercase;
+  margin-left: 16px;
+}
+
+.content {
+  padding: 16px;
+  min-height: calc(100vh - 64px); // Ajuste para altura da toolbar
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center; // Alinha verticalmente o ícone e o texto
+}
+
+.icon-text {
+  margin-left: 8px; // Ajuste o espaçamento entre o ícone e o texto
+}

@@ -10,6 +10,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [],
@@ -22,7 +24,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatGridListModule,
     MatListModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule, 
+    MatButtonModule,
+    MatSlideToggleModule
   ],
   exports: [
     FlexLayoutModule,
@@ -33,7 +38,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatGridListModule,
     MatListModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSlideToggleModule
   ]
 })
 export class SharedModule { }
