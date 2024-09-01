@@ -4,5 +4,6 @@ export interface Municipio {
 }
 
 export interface MunicipioResponse {
-    municipios: Municipio[]
+    municipios: Municipio[],
+    sigla: string;
 }

@@ -1,6 +1,5 @@
 import { Component, effect, signal } from '@angular/core';
 import { SharedModule } from '../../module/shared-module';
-import { TseService } from '../../../core/services/tse.service';
 import { Estado, EstadosResponse } from '../../../core/models/Estado';
 import { Municipio, MunicipioResponse } from '../../../core/models/Municipio';
 import { Cargo } from '../../../core/models/Cargo';
@@ -8,6 +7,7 @@ import { CandidatoResumo, CandidatosResponse } from '../../../core/models/Candid
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+import { TseService } from '../../../core/services/tse/tse.service';
 
 
 @Component({
@@ -28,28 +28,12 @@ export class CandidatosListaComponent {
   estados: Estado[] = [];
   municipios: Municipio[] = [];
   candidatos: CandidatoResumo[] = [];
-
-  // 11 - prefeito
-  // 12 - vice
-  // 13 - vereador
-  cargos: Cargo[] = [
-    {
-      nome: "Prefeito",
-      valor: "11",
-    },
-    {
-      nome: "Vice-Prefeito",
-      valor: "12",
-    },
-    {
-      nome: "Vereador",
-      valor: "13",
-    }
-  ]
+  cargos: Cargo[] = [];
 
 
   constructor(private tseService: TseService) {
     this.buscarEstados();
+    this.cargos = tseService.getCargos();
     this.signalBeacon();
   }
 
