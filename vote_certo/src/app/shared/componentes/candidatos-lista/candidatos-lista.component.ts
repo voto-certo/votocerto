@@ -1,27 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { SharedModule } from '../../module/shared-module';
 import { TseService } from '../../../core/services/tse.service';
 import { Estado, EstadosResponse } from '../../../core/models/Estado';
 import { Municipio, MunicipioResponse } from '../../../core/models/Municipio';
 import { Cargo } from '../../../core/models/Cargo';
 import { CandidatoResumo, CandidatosResponse } from '../../../core/models/Candidato';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-candidatos-lista',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, MatFormFieldModule,
+    MatSelectModule,
+    MatListModule],
   templateUrl: './candidatos-lista.component.html',
   styleUrl: './candidatos-lista.component.scss'
 })
 export class CandidatosListaComponent {
 
-  municipio_selecionado: Municipio = {
-    codigo: "",
-    nome: ""
-  };
+  selectedMunicipio = signal<string>("")
+  selectedEstado = signal<string>("");
+  selectedCargo = signal<string>("");
 
   estados: Estado[] = [];
   municipios: Municipio[] = [];
+  candidatos: CandidatoResumo[] = [];
+
   // 11 - prefeito
   // 12 - vice
   // 13 - vereador
@@ -39,9 +46,29 @@ export class CandidatosListaComponent {
       valor: "13",
     }
   ]
-  candidatos: CandidatoResumo[] = [];
+
 
   constructor(private tseService: TseService) {
+    this.buscarEstados();
+    this.signalBeacon();
+  }
+
+  private signalBeacon(): void {
+    effect(() => {
+      if (this.selectedEstado() !== '') {
+        console.log('O valor ESTADO foi alterado:', this.selectedEstado());
+        this.onEstadoChange(this.selectedEstado());
+      }
+      if (this.selectedMunicipio() !== '') {
+        console.log('O valor MUNICIPIO foi alterado:', this.selectedMunicipio());
+      }
+      if (this.selectedCargo() !== '') {
+        console.log('O valor CARGO foi alterado:', this.selectedCargo());
+      }
+    });
+  }
+
+  private buscarEstados(): void {
     this.tseService.getEstadosEleitorais().subscribe({
       next: (response: EstadosResponse) => {
         response.ues.map(ue => ue.nome !== 'BRASIL');
@@ -55,7 +82,6 @@ export class CandidatosListaComponent {
       }
     });
   }
-
 
   onEstadoChange(sigla: string): void {
     this.tseService.getMunicipiosDoEstado(sigla).subscribe({
@@ -72,11 +98,11 @@ export class CandidatosListaComponent {
   }
 
   onMunicipioChange(municipio: Municipio): void {
-    this.municipio_selecionado = municipio;
+    //this.municipio_selecionado = municipio;
   }
 
   onCargosChange(valor: string): void {
-    this.tseService.getCandidatos({codigo_cargo: valor, codigo_cidade: this.municipio_selecionado.codigo}).subscribe({
+    this.tseService.getCandidatos({codigo_cargo: valor, codigo_cidade: ""}).subscribe({
       next: (response: CandidatosResponse) => {
         this.candidatos = response.candidatos;
         console.log('candidatos: ', this.candidatos);
@@ -93,4 +119,5 @@ export class CandidatosListaComponent {
   detalhesCandidato(candidato: CandidatoResumo): void {
     console.log(`chamar detalhe candidato`, candidato);
   }
+  
 }
