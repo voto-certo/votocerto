@@ -16,4 +16,19 @@ export class UtilService {
   closeDialog(): void {
     this.dialog.closeAll();
   }
+
+  // Função genérica para armazenar um valor no localStorage
+  setItem<T>(key: string, value: T): void {
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
+  }
+
+  // Função genérica para buscar um valor do localStorage
+  getItem<T>(key: string): T | null {
+    const serializedValue = localStorage.getItem(key);
+    if (serializedValue) {
+      return JSON.parse(serializedValue) as T;
+    }
+    return null;
+  }
 }

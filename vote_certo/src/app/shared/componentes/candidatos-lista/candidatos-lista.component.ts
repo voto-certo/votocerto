@@ -8,7 +8,7 @@ import { CandidatoResumo, CandidatosResponse } from '../../../core/models/Candid
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
-import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-candidatos-lista',
@@ -57,7 +57,6 @@ export class CandidatosListaComponent {
     effect(() => {
       if (this.selectedEstado() !== '') {
         console.log('O valor ESTADO foi alterado:', this.selectedEstado());
-        this.onEstadoChange(this.selectedEstado());
       }
       if (this.selectedMunicipio() !== '') {
         console.log('O valor MUNICIPIO foi alterado:', this.selectedMunicipio());
@@ -83,8 +82,8 @@ export class CandidatosListaComponent {
     });
   }
 
-  onEstadoChange(sigla: string): void {
-    this.tseService.getMunicipiosDoEstado(sigla).subscribe({
+  private buscarMunicipios(): void {
+    this.tseService.getMunicipiosDoEstado(this.selectedEstado()).subscribe({
       next: (response: MunicipioResponse) => {
         this.municipios = response.municipios;
       },
@@ -94,15 +93,11 @@ export class CandidatosListaComponent {
       complete: () => {
         console.info('Requisição completa');
       }
-    })
+    });
   }
 
-  onMunicipioChange(municipio: Municipio): void {
-    //this.municipio_selecionado = municipio;
-  }
-
-  onCargosChange(valor: string): void {
-    this.tseService.getCandidatos({codigo_cargo: valor, codigo_cidade: ""}).subscribe({
+  private buscarCandidatos(): void {
+    this.tseService.getCandidatos({ codigo_cargo: this.selectedCargo(), codigo_cidade: this.selectedMunicipio() }).subscribe({
       next: (response: CandidatosResponse) => {
         this.candidatos = response.candidatos;
         console.log('candidatos: ', this.candidatos);
@@ -113,7 +108,25 @@ export class CandidatosListaComponent {
       complete: () => {
         console.info('Requisição completa');
       }
-    })
+    });
+  }
+
+  onEstadoChange(sigla: string): void {
+    this.selectedEstado.set(sigla);
+
+    this.buscarMunicipios();
+  }
+
+  onMunicipioChange(municipio: Municipio): void {
+    this.selectedMunicipio.set(municipio.codigo);
+
+    if (this.selectedCargo() !== "") this.buscarCandidatos();
+  }
+
+  onCargosChange(valor: string): void {
+    this.selectedCargo.set(valor);
+
+    this.buscarCandidatos();
   }
 
   detalhesCandidato(candidato: CandidatoResumo): void {

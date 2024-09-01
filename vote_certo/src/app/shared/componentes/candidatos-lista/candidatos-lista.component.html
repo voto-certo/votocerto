@@ -4,7 +4,7 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Selecione o Estado</mat-label>
-        <mat-select>
+        <mat-select  (selectionChange)="onEstadoChange($event.value)">
             <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
                 {{estado.nome}}
             </mat-option>
@@ -13,7 +13,7 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Selecione a Cidade</mat-label>
-        <mat-select>
+        <mat-select  (selectionChange)="onMunicipioChange($event.value)" >
             <mat-option *ngFor="let municipio of municipios" [value]="municipio">
                 {{municipio.nome}}
             </mat-option>
@@ -22,7 +22,7 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Selecione o Cargo</mat-label>
-        <mat-select>
+        <mat-select  (selectionChange)="onCargosChange($event.value)" >
             <mat-option *ngFor="let cargo of cargos" [value]="cargo.valor">
                 {{cargo.nome}}
             </mat-option>
