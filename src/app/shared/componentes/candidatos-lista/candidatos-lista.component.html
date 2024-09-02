@@ -7,7 +7,7 @@
         @for (candidato of candidatos; track candidato) {
         <mat-list-item (click)="detalhesCandidato(candidato)">
             <mat-icon matListItemIcon>zoom_in</mat-icon>
-            <div matListItemTitle>{{candidato.nomeCompleto}}</div>
+            <div matListItemTitle>{{candidato.nomeCompleto | capitalizeFirstLetters}}</div>
             <div matListItemLine>Número: {{candidato.numero}} - Partido: {{candidato.partido.sigla}}</div>
         </mat-list-item>
         <mat-divider></mat-divider>

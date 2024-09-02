@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../module/shared-module';
-import { UtilService } from '../../services/util.service';
+import { UtilService } from '../../utils/services/util.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({

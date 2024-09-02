@@ -2,16 +2,17 @@ import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
 import { SharedModule } from '../../module/shared-module';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { UtilService } from '../../services/util.service';
+import { UtilService } from '../../utils/services/util.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 registerLocaleData(localePt);
 
 @Component({
   selector: 'app-info-modal',
   standalone: true,
-  imports: [SharedModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+  imports: [SharedModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, MatCheckboxModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' } // Define o locale como português do Brasil
   ],

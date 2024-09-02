@@ -30,21 +30,6 @@ export class CandidatosFiltroComponent {
   constructor(private tseService: TseService, private useStatesService: UseStatesService) {
     this.buscarEstados();
     this.cargos = tseService.getCargos();
-    this.signalBeacon();
-  }
-
-  private signalBeacon(): void {
-    effect(() => {
-      if (this.selectedEstado() !== '') {
-        console.log('O valor ESTADO foi alterado:', this.selectedEstado());
-      }
-      if (this.selectedMunicipio() !== '') {
-        console.log('O valor MUNICIPIO foi alterado:', this.selectedMunicipio());
-      }
-      if (this.selectedCargo() !== '') {
-        console.log('O valor CARGO foi alterado:', this.selectedCargo());
-      }
-    });
   }
 
   private buscarEstados(): void {

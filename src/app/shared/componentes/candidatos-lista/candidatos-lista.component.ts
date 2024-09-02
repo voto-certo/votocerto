@@ -18,6 +18,10 @@ export class CandidatosListaComponent {
 
 
   constructor(private useStatesService: UseStatesService) {
+    this.signalBeacon();
+  }
+
+  private signalBeacon(): void {
     effect(() => {
       if (this.useStatesService.candidatos() !== null && this.useStatesService.candidatos().length > 0) {
         this.candidatos = this.useStatesService.candidatos();
