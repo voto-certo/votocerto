@@ -1,0 +1,21 @@
+name: PR to Develop
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/develop' }}
+
+    steps:
+    - name: Create Pull Request to Develop
+      uses: repo-sync/pull-request@v2
+      with:
+        source_branch: ${{ github.ref }}
+        destination_branch: develop
+        pr_title: "Auto PR from ${{ github.ref }} to develop"
+        pr_body: "This pull request was automatically created by the CI pipeline."

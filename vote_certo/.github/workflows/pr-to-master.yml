@@ -1,0 +1,19 @@
+name: PR to Master
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Pull Request to Master
+      uses: repo-sync/pull-request@v2
+      with:
+        source_branch: develop
+        destination_branch: master
+        pr_title: "Auto PR from develop to master"
+        pr_body: "This pull request was automatically created after a successful merge into develop."
