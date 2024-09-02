@@ -1,16 +1,6 @@
-.search-container {
+.list-container {
   display: flex;
   flex-direction: column;
   width: 500px;
   margin: 0 auto;
 }
-
-.mat-form-field {
-  margin-bottom: 16px;
-}
-
-mat-list-item {
-  cursor: pointer !important;
-}
-
-

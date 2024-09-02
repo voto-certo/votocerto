@@ -1,0 +1,11 @@
+.search-container {
+  display: flex;
+  flex-direction: column;
+}
+.mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-list-item {
+  cursor: pointer !important;
+}
