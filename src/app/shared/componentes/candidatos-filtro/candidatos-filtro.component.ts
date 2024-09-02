@@ -18,10 +18,6 @@ import { UseStatesService } from '../../../core/services/states/use-states.servi
 })
 export class CandidatosFiltroComponent {
 
-  selectedMunicipio = signal<string>("")
-  selectedEstado = signal<string>("");
-  selectedCargo = signal<string>("");
-
   estados: Estado[] = [];
   municipios: Municipio[] = [];
   cargos: Cargo[] = [];
@@ -48,7 +44,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarMunicipios(): void {
-    this.tseService.getMunicipiosDoEstado(this.selectedEstado()).subscribe({
+    this.tseService.getMunicipiosDoEstado(this.useStatesService.selectedEstado()).subscribe({
       next: (response: MunicipioResponse) => {
         this.municipios = response.municipios;
       },
@@ -62,7 +58,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarCandidatos(): void {
-    this.tseService.getCandidatos({ codigo_cargo: this.selectedCargo(), codigo_cidade: this.selectedMunicipio() }).subscribe({
+    this.tseService.getCandidatos({ codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
       next: (response: CandidatosResponse) => {
         this.useStatesService.candidatos.set(response.candidatos);
       },
@@ -76,19 +72,19 @@ export class CandidatosFiltroComponent {
   }
 
   onEstadoChange(sigla: string): void {
-    this.selectedEstado.set(sigla);
+    this.useStatesService.selectedEstado.set(sigla);
 
     this.buscarMunicipios();
   }
 
   onMunicipioChange(municipio: Municipio): void {
-    this.selectedMunicipio.set(municipio.codigo);
+    this.useStatesService.selectedMunicipio.set(municipio.codigo);
 
-    if (this.selectedCargo() !== "") this.buscarCandidatos();
+    if (this.useStatesService.selectedCargo() !== "") this.buscarCandidatos();
   }
 
   onCargosChange(valor: string): void {
-    this.selectedCargo.set(valor);
+    this.useStatesService.selectedCargo.set(valor);
 
     this.buscarCandidatos();
   }

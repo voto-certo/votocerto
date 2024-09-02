@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { EstadosResponse } from '../../models/Estado';
 import { environment } from '../../../../environments/environment';
 import { MunicipioResponse } from '../../models/Municipio';
-import { CandidatosRequest, CandidatosResponse } from '../../models/Candidato';
+import { Candidato, CandidatoDetalheRequest, CandidatosRequest, CandidatosResponse } from '../../models/Candidato';
 import { Cargo } from '../../models/Cargo';
 
 @Injectable({
@@ -36,6 +36,14 @@ export class TseService {
     return this.fetchWithCache<CandidatosResponse>(
       cacheKey,
       () => this.http.get<CandidatosResponse>(`${this.baseUrl}/candidatura/listar/2024/${candidatosRequest.codigo_cidade}/${environment.endpoints.idEleicao}/${candidatosRequest.codigo_cargo}/candidatos`)
+    );
+  }
+
+  getCandidatoDetalhe(candidatoRequest: CandidatoDetalheRequest): Observable<Candidato> {
+    const cacheKey = `candidato-${candidatoRequest.codigo_cidade}-${candidatoRequest.id_candidato}`;
+    return this.fetchWithCache<Candidato>(
+      cacheKey,
+      () => this.http.get<Candidato>(`${this.baseUrl}/candidatura/buscar/2024/${candidatoRequest.codigo_cidade}/${environment.endpoints.idEleicao}/candidato/${candidatoRequest.id_candidato}`)
     );
   }
 

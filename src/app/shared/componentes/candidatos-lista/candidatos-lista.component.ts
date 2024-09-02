@@ -4,6 +4,7 @@ import { CandidatoResumo, CandidatosResponse } from '../../../core/models/Candid
 import { MatListModule } from '@angular/material/list';
 import { CandidatosFiltroComponent } from "../candidatos-filtro/candidatos-filtro.component";
 import { UseStatesService } from '../../../core/services/states/use-states.service';
+import { TseService } from '../../../core/services/tse/tse.service';
 
 @Component({
   selector: 'app-candidatos-lista',
@@ -17,7 +18,7 @@ export class CandidatosListaComponent {
   candidatos: CandidatoResumo[] = [];
 
 
-  constructor(private useStatesService: UseStatesService) {
+  constructor(private useStatesService: UseStatesService, private tseService: TseService) {
     this.signalBeacon();
   }
 
@@ -32,6 +33,9 @@ export class CandidatosListaComponent {
   
   detalhesCandidato(candidato: CandidatoResumo): void {
     console.log(`chamar detalhe candidato`, candidato);
+    this.tseService.getCandidatoDetalhe({ codigo_cidade: this.useStatesService.selectedMunicipio(), id_candidato: candidato.id.toString()}).subscribe(res => {
+      console.log("response candidato detalhe: ", res);
+    });
   }
   
 }

@@ -6,6 +6,9 @@ import { CandidatoResumo } from '../../models/Candidato';
 })
 export class UseStatesService {
   candidatos = signal<CandidatoResumo[]>([]);
+  selectedMunicipio = signal<string>("")
+  selectedEstado = signal<string>("");
+  selectedCargo = signal<string>("");
 
   constructor() { }
 }
