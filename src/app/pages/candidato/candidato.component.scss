@@ -11,6 +11,7 @@
 }
 
 .custom-card-profile {
+    max-height: 500px;
     width: 20%;
 }
 
@@ -20,6 +21,7 @@
 
 .card-content {
   text-align: center;
+  margin-top: 15%;
 }
 
 .photo-container {
@@ -79,4 +81,100 @@
 
 .header-right {
   float: right;
+}
+
+.expansion-panels {
+  padding: 20px;
+}
+
+mat-expansion-panel {
+  margin-bottom: 10px;
+}
+
+mat-expansion-panel-header {
+  display: flex;
+  align-items: center;
+}
+
+mat-icon {
+  margin-right: 8px;
+  color: #3f51b5; /* Cor do ícone */
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.info-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-button {
+  margin-top: 10px;
+}
+
+.highlighted-text {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #000;
+}
+
+.election-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  mat-icon {
+    cursor: pointer;
+  }
+}
+
+.election-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+mat-icon.mat-tooltip {
+  margin-right: 8px;
+}
+
+.bens-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bens-list li {
+  margin-bottom: 10px;
+}
+
+.bens-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bens-details {
+  .highlighted-text {
+    font-weight: bold;
+    color: #000;
+  }
 }

@@ -7,11 +7,13 @@ import { SharedModule } from '../../shared/module/shared-module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-candidato',
   standalone: true,
-  imports: [SharedModule, MatGridListModule, MatCardModule, MatDividerModule],
+  imports: [SharedModule, MatGridListModule, MatCardModule, MatDividerModule, MatExpansionModule, MatTooltipModule],
   templateUrl: './candidato.component.html',
   styleUrl: './candidato.component.scss'
 })
