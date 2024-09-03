@@ -15,6 +15,5 @@ export class UtilService {
 
   closeDialog(): void {
     this.dialog.closeAll();
-  }
-  
+  }  
 }

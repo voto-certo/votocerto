@@ -5,6 +5,7 @@ import { MatListModule } from '@angular/material/list';
 import { CandidatosFiltroComponent } from "../candidatos-filtro/candidatos-filtro.component";
 import { UseStatesService } from '../../../core/services/states/use-states.service';
 import { Router } from '@angular/router';
+import { UtilService } from '../../utils/services/util.service';
 
 @Component({
   selector: 'app-candidatos-lista',
@@ -18,7 +19,7 @@ export class CandidatosListaComponent {
   candidatos: CandidatoResumo[] = [];
 
 
-  constructor(private useStatesService: UseStatesService,  private router: Router) {
+  constructor(private useStatesService: UseStatesService,  private router: Router, private utilService: UtilService) {
     this.signalBeacon();
   }
 

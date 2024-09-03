@@ -2,11 +2,11 @@
     <!-- Primeiro Card -->
     <mat-card class="custom-card custom-card-profile">
         <div class="photo-container">
-            <img [src]="candidato.fotoUrl" alt="Foto do Candidato" class="candidate-photo">
+            <img [src]="candidato.fotoUrl" alt="Foto do Candidato" class="candidate-photo" *ngIf="candidato.fotoUrl">
             <div class="overlay">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
                 <p class="highlighted-text">{{candidato.nomeUrna}}</p>
-                <p><strong>{{candidato.cargo.titular ? 'Titular' : 'Suplente'}}</strong></p>
+                <p><strong>{{candidato?.cargo?.titular ? 'Titular' : 'Suplente'}}</strong></p>
                 <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura | capitalizeFirstLetters}}/{{candidato.ufSuperiorCandidatura}}</p>
                 <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
                 <p>{{candidato.cnpjcampanha | formatCnpj}}</p>
@@ -39,8 +39,8 @@
                     <p><strong>Candidato a reeleição:</strong> {{candidato.st_REELEICAO ? 'Sim' : 'Não'}}</p>
                     <p><strong>Coligação:</strong> {{candidato.nomeColigacao | capitalizeFirstLetters}}</p>
                     <p><strong>Composição da Coligação:</strong> {{candidato.composicaoColigacao}}</p>
-                    <p><strong>Limite Legal de Gastos 1º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha1T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
-                    <p><strong>Limite Legal de Gastos 2º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha2T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+                    <p *ngIf="candidato.gastoCampanha1T && candidato.gastoCampanha1T > 0"><strong>Limite Legal de Gastos 1º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha1T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+                    <p *ngIf="candidato.gastoCampanha2T && candidato.gastoCampanha2T > 0"><strong>Limite Legal de Gastos 2º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha2T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
                     </p>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                                     <p>{{vice.ds_CARGO}}</p>
                                     <p>{{vice.nm_PARTIDO}} - {{vice.nr_CANDIDATO}}</p>
                                 </div>
-                                <button mat-raised-button color="primary" class="info-button">Dados do Candidato</button>
+                                <button mat-raised-button color="primary" class="info-button" (click)="detalhesDoCandidato(vice.sq_CANDIDATO.toString(), vice.sg_UE)">Dados do Candidato</button>
                             }
 
                         </div>
@@ -91,34 +91,30 @@
                                 Bens do Candidato
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <p><strong>Total de bens: </strong> <span class="highline">R$216.378,02</span>
+                        <p><strong>Total de bens: </strong> <span class="highline">{{candidato.totalDeBens | currency: 'BRL': 'symbol':'1.2-2'}}</span>
 
                         <ul class="bens-list">
-                            <li>
-                                <div class="bens-item">
-                                    <div class="bens-details">
-                                        <p class="highlighted-text">Veículo automotor terrestre: caminhão, automóvel,
-                                            moto, etc.</p>
-                                        <p>FIAT STRADA FREEDOM 13 CS 2022/2021</p>
-                                        <p class="highlighted-text">R$ 82.000,00</p>
+                            <div class="bens-item" *ngIf="candidato.bens.length === 0; else listaDeBens">
+                                <!-- Este conteúdo será exibido se 'condicao' for verdadeira -->
+                                <p>Condição verdadeira!</p>
+                            </div>
+                            <ng-template #listaDeBens>
+                                @for (bem of candidato.bens; track bem) {
+                                <li>
+                                    <div class="bens-item">
+                                        <div class="bens-details">
+                                            <p class="highlighted-text">{{bem.descricaoDeTipoDeBem}}</p>
+                                            <p>{{bem.descricao}}</p>
+                                            <p class="highlighted-text">{{bem.valor | currency: 'BRL': 'symbol':'1.2-2'}}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </li>
+                                }
+                            </ng-template>
 
-                            </li>
-                            <li>
-                                <div class="bens-item">
-                                    <div class="bens-details">
-                                        <p class="highlighted-text">Dinheiro em espécie - moeda nacional</p>
-                                        <p>NUMERARIOS</p>
-                                        <p class="highlighted-text">R$ 110.000,00</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- Adicione os outros itens de bens aqui da mesma forma -->
-                            <!-- Continue a lista seguindo o mesmo padrão para os itens restantes -->
                         </ul>
                     </mat-expansion-panel>
-
+                    
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -127,10 +123,16 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <ul class="election-list">
-                            <li>
+                            @for (arquivo of candidato.arquivos; track arquivo) {
+                            <li *ngIf="arquivo.codTipo === '5'">
                                 Proposta de Governo
-                                <mat-icon matTooltip="Baixar Proposta">download</mat-icon>
+                                <a [href]="'https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/doc/' + arquivo.idArquivo" target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Baixar Proposta">download</mat-icon>
+                                    </button>
+                                </a>
                             </li>
+                            }
                         </ul>
                     </mat-expansion-panel>
 
@@ -142,60 +144,39 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <ul class="election-list">
-                            <li>
-                                Certidão criminal da Justiça Federal de 1º grau
-                                <mat-icon matTooltip="Baixar certidão">download</mat-icon>
+                            @for (arquivo of candidato.arquivos; track arquivo) {
+                            <li *ngIf="arquivo.codTipo !== '5'">
+                                {{arquivo.nome}}
+                                <a [href]="'https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/doc/' + arquivo.idArquivo"
+                                    target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Baixar Certidão">download</mat-icon>
+                                    </button>
+                                </a>
                             </li>
-                            <li>
-                                Certidão criminal da Justiça Federal de 1º grau
-                                <mat-icon matTooltip="Baixar certidão">download</mat-icon>
-                            </li>
-                            <li>
-                                Certidão criminal da Justiça Federal de 1º grau
-                                <mat-icon matTooltip="Baixar certidão">download</mat-icon>
-                            </li>
+                            }
                         </ul>
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <mat-icon>gavel</mat-icon>
-                                Processos
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="election-list">
-                            <li>
-                                0600134-63.2024.6.26.0079 - Processo De Registro Da Candidatura
-                                <mat-icon matTooltip="Visualizar Processo">search</mat-icon>
-                            </li>
-                            <li>
-                                0600134-63.2024.6.26.0079 - Processo De Registro Da Candidatura
-                                <mat-icon matTooltip="Visualizar Processo">search</mat-icon>
-                            </li>
-                            <li>
-                                0600134-63.2024.6.26.0079 - Processo De Registro Da Candidatura
-                                <mat-icon matTooltip="Visualizar Processo">search</mat-icon>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel>
+                    <mat-expansion-panel *ngIf="candidato.sites.length > 0">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 <mat-icon>link</mat-icon>
                                 Sites do Candidato
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <ul class="election-list">
+                         <ul class="election-list">
+                            @for (site of candidato.sites; track site) {
                             <li>
-                                instagram - https://www.instagram.com/fabianobelentani?igsh=eTNmZ2J4N3c5eXlh
-                                <mat-icon matTooltip="Visualizar Rede Social">link</mat-icon>
+                                {{site}}
+                                <a [href]="site"
+                                    target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Visualizar Rede Social">link</mat-icon>
+                                    </button>
+                                </a>
                             </li>
-                            <li>
-                                facebook - https://www.instagram.com/fabianobelentani?igsh=eTNmZ2J4N3c5eXlh
-                                <mat-icon matTooltip="Visualizar Rede Social">facebook</mat-icon>
-                            </li>
+                            }
                         </ul>
                     </mat-expansion-panel>
                 </mat-accordion>
