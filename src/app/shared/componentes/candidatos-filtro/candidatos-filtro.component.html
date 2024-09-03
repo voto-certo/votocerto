@@ -1,0 +1,30 @@
+<div class="search-container">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Selecione o Estado</mat-label>
+        <mat-select (selectionChange)="onEstadoChange($event.value)">
+            <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
+                {{estado.nome | capitalizeFirstLetters}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Selecione a Cidade</mat-label>
+        <mat-select (selectionChange)="onMunicipioChange($event.value)">
+            <mat-option *ngFor="let municipio of municipios" [value]="municipio">
+                {{municipio.nome | capitalizeFirstLetters}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Selecione o Cargo</mat-label>
+        <mat-select (selectionChange)="onCargosChange($event.value)">
+            <mat-option *ngFor="let cargo of cargos" [value]="cargo.valor">
+                {{cargo.nome | capitalizeFirstLetters}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</div>

@@ -1,0 +1,186 @@
+<div class="container">
+    <!-- Primeiro Card -->
+    <mat-card class="custom-card custom-card-profile">
+        <div class="photo-container">
+            <img [src]="candidato.fotoUrl" alt="Foto do Candidato" class="candidate-photo" *ngIf="candidato.fotoUrl">
+            <div class="overlay">{{candidato.descricaoTotalizacao}}</div>
+            <div class="card-content">
+                <p class="highlighted-text">{{candidato.nomeUrna}}</p>
+                <p><strong>{{candidato?.cargo?.titular ? 'Titular' : 'Suplente'}}</strong></p>
+                <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura | capitalizeFirstLetters}}/{{candidato.ufSuperiorCandidatura}}</p>
+                <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
+                <p>{{candidato.cnpjcampanha | formatCnpj}}</p>
+                <p class="highlighted-text">{{candidato.numero}}</p>
+                
+            </div>
+        </div>
+    </mat-card>
+
+    <!-- Segundo Card -->
+    <mat-card class="custom-card custom-card-resume">
+        <mat-card-header>
+            <p>Última Atualização: {{candidato.dataUltimaAtualizacao}}</p>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <p><strong>Nome Completo:</strong> {{candidato.nomeCompleto}}</p>
+            <div class="info-blocks">
+                <div class="info-block">
+                    <p><strong>Data de Nascimento:</strong> {{candidato.dataDeNascimento | date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Gênero:</strong> {{candidato.descricaoSexo === 'MASC.' ? 'Masculino' : 'Feminino'}}</p>
+                    <p><strong>Cor / Raça:</strong> {{candidato.descricaoCorRaca | capitalizeFirstLetters}}</p>
+                    <p><strong>Quilombola:</strong> {{candidato.infoComplementar.quilombola}}</p>
+                    <p><strong>Estado Civil:</strong> {{candidato.descricaoEstadoCivil}}</p>
+                    <p><strong>Grau de Instrução:</strong> {{candidato.grauInstrucao}}</p>
+                </div>
+                <div class="info-block">
+                    <p><strong>Ocupação:</strong> {{candidato.ocupacao}}</p>
+                    <p><strong>Nacionalidade / Naturalidade:</strong> {{candidato.nacionalidade}} / {{candidato.nomeMunicipioNascimento | capitalizeFirstLetters}} - {{candidato.sgUfNascimento}}</p>
+                    <p><strong>Candidato a reeleição:</strong> {{candidato.st_REELEICAO ? 'Sim' : 'Não'}}</p>
+                    <p><strong>Coligação:</strong> {{candidato.nomeColigacao | capitalizeFirstLetters}}</p>
+                    <p><strong>Composição da Coligação:</strong> {{candidato.composicaoColigacao}}</p>
+                    <p *ngIf="candidato.gastoCampanha1T && candidato.gastoCampanha1T > 0"><strong>Limite Legal de Gastos 1º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha1T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+                    <p *ngIf="candidato.gastoCampanha2T && candidato.gastoCampanha2T > 0"><strong>Limite Legal de Gastos 2º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha2T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="expansion-panels">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>people</mat-icon>
+                                Vices / Suplentes
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="info-container">
+                            @for (vice of candidato.vices; track vice) {
+                                <img [src]="vice.urlFoto" alt="Foto do Vice" class="candidate-photo">
+                                <div class="info-text">
+                                    <p class="highlighted-text">{{vice.nm_URNA | capitalizeFirstLetters}}</p>
+                                    <p>{{vice.ds_CARGO}}</p>
+                                    <p>{{vice.nm_PARTIDO}} - {{vice.nr_CANDIDATO}}</p>
+                                </div>
+                                <button mat-raised-button color="primary" class="info-button" (click)="detalhesDoCandidato(vice.sq_CANDIDATO.toString(), vice.sg_UE)">Dados do Candidato</button>
+                            }
+
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>event</mat-icon>
+                                Eleições
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="election-list">
+                            @for (ea of candidato.eleicoesAnteriores; track ea) {
+                                <li>
+                                    <strong>{{ea.nrAno}} {{ea.situacaoTotalizacao}}</strong> - Candidato a {{ea.cargo}} em {{ea.local | capitalizeFirstLetters }} pelo partido {{ea.partido}}.
+                                </li>
+                            }
+                        </ul>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>attach_money</mat-icon>
+                                Bens do Candidato
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p><strong>Total de bens: </strong> <span class="highline">{{candidato.totalDeBens | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+
+                        <ul class="bens-list">
+                            <div class="bens-item" *ngIf="candidato.bens.length === 0; else listaDeBens">
+                                <!-- Este conteúdo será exibido se 'condicao' for verdadeira -->
+                                <p>Condição verdadeira!</p>
+                            </div>
+                            <ng-template #listaDeBens>
+                                @for (bem of candidato.bens; track bem) {
+                                <li>
+                                    <div class="bens-item">
+                                        <div class="bens-details">
+                                            <p class="highlighted-text">{{bem.descricaoDeTipoDeBem}}</p>
+                                            <p>{{bem.descricao}}</p>
+                                            <p class="highlighted-text">{{bem.valor | currency: 'BRL': 'symbol':'1.2-2'}}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                }
+                            </ng-template>
+
+                        </ul>
+                    </mat-expansion-panel>
+                    
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>list_alt</mat-icon>
+                                Propostas
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="election-list">
+                            @for (arquivo of candidato.arquivos; track arquivo) {
+                            <li *ngIf="arquivo.codTipo === '5'">
+                                Proposta de Governo
+                                <a [href]="'https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/doc/' + arquivo.idArquivo" target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Baixar Proposta">download</mat-icon>
+                                    </button>
+                                </a>
+                            </li>
+                            }
+                        </ul>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>description</mat-icon>
+                                Certidão
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="election-list">
+                            @for (arquivo of candidato.arquivos; track arquivo) {
+                            <li *ngIf="arquivo.codTipo !== '5'">
+                                {{arquivo.nome}}
+                                <a [href]="'https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/doc/' + arquivo.idArquivo"
+                                    target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Baixar Certidão">download</mat-icon>
+                                    </button>
+                                </a>
+                            </li>
+                            }
+                        </ul>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel *ngIf="candidato.sites.length > 0">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>link</mat-icon>
+                                Sites do Candidato
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                         <ul class="election-list">
+                            @for (site of candidato.sites; track site) {
+                            <li>
+                                {{site}}
+                                <a [href]="site"
+                                    target="_blank">
+                                    <button mat-icon-button>
+                                        <mat-icon matTooltip="Visualizar Rede Social">link</mat-icon>
+                                    </button>
+                                </a>
+                            </li>
+                            }
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

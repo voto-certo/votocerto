@@ -1,0 +1,174 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+}
+
+.custom-card {
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-card-profile {
+  max-height: 500px;
+  width: 20%;
+}
+
+.custom-card-resume {
+  width: 65%;
+}
+
+.card-content {
+  text-align: center;
+  margin-top: 15%;
+}
+
+.photo-container {
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.candidate-photo {
+  width: 130px;
+  height: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 35%;
+  background-color: #add8e6; /* Azul claro */
+  color: black;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.highline {
+  background-color: #add8e6; /* Azul claro */
+  color: black;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.highlighted-text {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #000;
+}
+
+.info-blocks {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-block {
+  width: 48%;
+}
+
+.mat-card-title,
+.mat-card-subtitle {
+  text-align: left;
+}
+
+.header-left {
+  float: left;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+}
+
+.expansion-panels {
+  padding: 20px;
+}
+
+mat-expansion-panel {
+  margin-bottom: 10px;
+}
+
+mat-expansion-panel-header {
+  display: flex;
+  align-items: center;
+}
+
+mat-icon {
+  margin-right: 8px;
+  color: #3f51b5; /* Cor do ícone */
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.info-text {
+  flex: 1;
+  margin-left: 15px;
+}
+
+.info-button {
+  margin-top: 10px;
+}
+
+.highlighted-text {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #000;
+}
+
+.election-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  mat-icon {
+    cursor: pointer;
+  }
+}
+
+.election-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+mat-icon.mat-tooltip {
+  margin-right: 8px;
+}
+
+.bens-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bens-list li {
+  margin-bottom: 10px;
+}
+
+.bens-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bens-details {
+  .highlighted-text {
+    font-weight: bold;
+    color: #000;
+  }
+}
