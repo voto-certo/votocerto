@@ -3,10 +3,10 @@
     <mat-card class="custom-card custom-card-profile">
         <div class="photo-container">
             <img src="https://via.placeholder.com/150" alt="Foto do Candidato" class="candidate-photo">
-            <div class="overlay">Concorrendo</div>
+            <div class="overlay">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
-                <p class="highlighted-text">FABIANO BELENTANI</p>
-                <p>Prefeito - Novo Horizonte/SP</p>
+                <p class="highlighted-text">{{candidato.nomeUrna}}</p>
+                <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura | capitalizeFirstLetters}}/{{candidato.ufSuperiorCandidatura}}</p>
                 <p>Partido Liberal - PL</p>
                 <p>56.624.957/0001-63</p>
                 <p class="highlighted-text">22</p>

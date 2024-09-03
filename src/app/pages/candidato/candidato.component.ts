@@ -19,9 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class CandidatoComponent {
 
-  /**
-   *
-   */
+  candidato: Candidato = {} as Candidato;
+
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router) {
     const idCandidato = this.route.snapshot.paramMap.get('id_candidato');
     const idCidade = this.route.snapshot.paramMap.get('id_cidade');
@@ -32,7 +31,9 @@ export class CandidatoComponent {
     }
     this.tseService.getCandidatoDetalhe({ codigo_cidade: idCidade, id_candidato: idCandidato }).subscribe({
       next: (response: Candidato) => {
-        console.log(`Candidato detalhe: `, response);
+        this.candidato = response;
+        console.log(`Candidato detalhe: `, this.candidato);
+
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);

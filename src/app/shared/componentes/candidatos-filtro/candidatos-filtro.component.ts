@@ -60,7 +60,7 @@ export class CandidatosFiltroComponent {
   private buscarCandidatos(): void {
     this.tseService.getCandidatos({ codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
       next: (response: CandidatosResponse) => {
-        this.useStatesService.candidatos.set(response.candidatos);
+        this.useStatesService.candidatos.set(response.candidatos.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto)));
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);
