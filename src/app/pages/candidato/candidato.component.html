@@ -2,14 +2,16 @@
     <!-- Primeiro Card -->
     <mat-card class="custom-card custom-card-profile">
         <div class="photo-container">
-            <img src="https://via.placeholder.com/150" alt="Foto do Candidato" class="candidate-photo">
+            <img [src]="candidato.fotoUrl" alt="Foto do Candidato" class="candidate-photo">
             <div class="overlay">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
                 <p class="highlighted-text">{{candidato.nomeUrna}}</p>
+                <p><strong>{{candidato.cargo.titular ? 'Titular' : 'Suplente'}}</strong></p>
                 <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura | capitalizeFirstLetters}}/{{candidato.ufSuperiorCandidatura}}</p>
-                <p>Partido Liberal - PL</p>
-                <p>56.624.957/0001-63</p>
-                <p class="highlighted-text">22</p>
+                <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
+                <p>{{candidato.cnpjcampanha | formatCnpj}}</p>
+                <p class="highlighted-text">{{candidato.numero}}</p>
+                
             </div>
         </div>
     </mat-card>
@@ -17,27 +19,28 @@
     <!-- Segundo Card -->
     <mat-card class="custom-card custom-card-resume">
         <mat-card-header>
-            <div class="header-left">Última Atualização: 30/08/2024 09:07</div>
+            <p>Última Atualização: {{candidato.dataUltimaAtualizacao}}</p>
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p><strong>Nome Completo:</strong> FABIANO DE MELLO BELENTANI</p>
+            <p><strong>Nome Completo:</strong> {{candidato.nomeCompleto}}</p>
             <div class="info-blocks">
                 <div class="info-block">
-                    <p><strong>Data de Nascimento:</strong> 12/09/1976</p>
-                    <p><strong>Gênero:</strong> Masculino</p>
-                    <p><strong>Cor / Raça:</strong> Branca</p>
-                    <p><strong>Quilombola:</strong> Não</p>
-                    <p><strong>Estado Civil:</strong> Casado(a)</p>
-                    <p><strong>Grau de Instrução:</strong> Superior Completo</p>
+                    <p><strong>Data de Nascimento:</strong> {{candidato.dataDeNascimento | date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Gênero:</strong> {{candidato.descricaoSexo === 'MASC.' ? 'Masculino' : 'Feminino'}}</p>
+                    <p><strong>Cor / Raça:</strong> {{candidato.descricaoCorRaca | capitalizeFirstLetters}}</p>
+                    <p><strong>Quilombola:</strong> {{candidato.infoComplementar.quilombola}}</p>
+                    <p><strong>Estado Civil:</strong> {{candidato.descricaoEstadoCivil}}</p>
+                    <p><strong>Grau de Instrução:</strong> {{candidato.grauInstrucao}}</p>
                 </div>
                 <div class="info-block">
-                    <p><strong>Ocupação:</strong> Prefeito</p>
-                    <p><strong>Nacionalidade / Naturalidade:</strong> Brasileira Nata / SP-Novo Horizonte</p>
-                    <p><strong>Candidato a reeleição:</strong> Sim</p>
-                    <p><strong>Coligação:</strong> HONESTIDADE, UNIÃO E TRABALHO</p>
-                    <p><strong>Composição da Coligação:</strong> PP / UNIÃO / PL / PSD</p>
-                    <p><strong>Limite Legal de Gastos 1º Turno: </strong> <span class="highline">R$ 216.378,02</span>
+                    <p><strong>Ocupação:</strong> {{candidato.ocupacao}}</p>
+                    <p><strong>Nacionalidade / Naturalidade:</strong> {{candidato.nacionalidade}} / {{candidato.nomeMunicipioNascimento | capitalizeFirstLetters}} - {{candidato.sgUfNascimento}}</p>
+                    <p><strong>Candidato a reeleição:</strong> {{candidato.st_REELEICAO ? 'Sim' : 'Não'}}</p>
+                    <p><strong>Coligação:</strong> {{candidato.nomeColigacao | capitalizeFirstLetters}}</p>
+                    <p><strong>Composição da Coligação:</strong> {{candidato.composicaoColigacao}}</p>
+                    <p><strong>Limite Legal de Gastos 1º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha1T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
+                    <p><strong>Limite Legal de Gastos 2º Turno: </strong> <span class="highline"> {{candidato.gastoCampanha2T | currency: 'BRL': 'symbol':'1.2-2'}}</span>
                     </p>
                 </div>
             </div>
@@ -52,13 +55,16 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <div class="info-container">
-                            <img src="https://via.placeholder.com/100" alt="Foto do Vice" class="info-photo">
-                            <div class="info-text">
-                                <p class="highlighted-text">Amarilis Biasi</p>
-                                <p>Vice-prefeito</p>
-                                <p>Partido Social Democrático - 22</p>
-                            </div>
-                            <button mat-raised-button color="primary" class="info-button">Dados do Candidato</button>
+                            @for (vice of candidato.vices; track vice) {
+                                <img [src]="vice.urlFoto" alt="Foto do Vice" class="candidate-photo">
+                                <div class="info-text">
+                                    <p class="highlighted-text">{{vice.nm_URNA | capitalizeFirstLetters}}</p>
+                                    <p>{{vice.ds_CARGO}}</p>
+                                    <p>{{vice.nm_PARTIDO}} - {{vice.nr_CANDIDATO}}</p>
+                                </div>
+                                <button mat-raised-button color="primary" class="info-button">Dados do Candidato</button>
+                            }
+
                         </div>
                     </mat-expansion-panel>
 
@@ -70,18 +76,11 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <ul class="election-list">
-                            <li>
-                                <!-- <mat-icon matTooltip="Acessar os dados na eleição de 2018">search</mat-icon> -->
-                                Candidato a Prefeito/Novo Horizonte partido PL em 2024
-                            </li>
-                            <li>
-                                Candidato a Prefeito/Novo Horizonte partido PL em 2018
-                                <mat-icon matTooltip="Acessar os dados na eleição de 2018">search</mat-icon>
-                            </li>
-                            <li>
-                                Candidato a Prefeito/Novo Horizonte partido PL em 2012
-                                <mat-icon matTooltip="Acessar os dados na eleição de 2012">search</mat-icon>
-                            </li>
+                            @for (ea of candidato.eleicoesAnteriores; track ea) {
+                                <li>
+                                    <strong>{{ea.nrAno}} {{ea.situacaoTotalizacao}}</strong> - Candidato a {{ea.cargo}} em {{ea.local | capitalizeFirstLetters }} pelo partido {{ea.partido}}.
+                                </li>
+                            }
                         </ul>
                     </mat-expansion-panel>
 

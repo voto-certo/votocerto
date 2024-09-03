@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'capitalizeFirstLetters',
   standalone: true
 })
-export class UtilPipe implements PipeTransform {
+export class CaptalizePipe implements PipeTransform {
 
   transform(value: string): string {
     if (!value) return value;

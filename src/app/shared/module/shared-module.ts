@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UtilPipe } from '../utils/pipes/util.pipe';
+import { FormatPipe } from '../utils/pipes/transforms/cnpj/format.pipe';
+import { CaptalizePipe } from '../utils/pipes/transforms/palavras/captalize.pipe';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,10 @@ import { UtilPipe } from '../utils/pipes/util.pipe';
     MatIconModule,
     MatButtonModule,
     FormsModule, ReactiveFormsModule,
-    UtilPipe
+    FormatPipe,
+    CaptalizePipe,
+    DatePipe,
+    CurrencyPipe
   ],
   exports: [
     CommonModule,
@@ -22,7 +26,10 @@ import { UtilPipe } from '../utils/pipes/util.pipe';
     MatIconModule,
     MatButtonModule,
     FormsModule, ReactiveFormsModule,
-    UtilPipe
+    FormatPipe,
+    CaptalizePipe,
+    DatePipe,
+    CurrencyPipe
   ]
 })
 export class SharedModule { }
