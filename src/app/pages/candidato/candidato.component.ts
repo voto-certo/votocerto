@@ -3,11 +3,15 @@ import { TseService } from '../../core/services/tse/tse.service';
 import { UseStatesService } from '../../core/services/states/use-states.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Candidato } from '../../core/models/Candidato';
+import { SharedModule } from '../../shared/module/shared-module';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-candidato',
   standalone: true,
-  imports: [],
+  imports: [SharedModule, MatGridListModule, MatCardModule, MatDividerModule],
   templateUrl: './candidato.component.html',
   styleUrl: './candidato.component.scss'
 })
