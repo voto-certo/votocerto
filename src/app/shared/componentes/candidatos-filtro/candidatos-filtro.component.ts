@@ -86,6 +86,6 @@ export class CandidatosFiltroComponent {
   onCargosChange(valor: string): void {
     this.useStatesService.selectedCargo.set(valor);
 
-    this.buscarCandidatos();
+    if (this.useStatesService.selectedMunicipio() !== "") this.buscarCandidatos();
   }
 }

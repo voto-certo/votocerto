@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { NavMenuComponent } from './shared/componentes/nav-menu/nav-menu.component';
 import { UtilService } from './shared/utils/services/util.service';
 import { isPlatformBrowser } from '@angular/common';
+import { LoadingComponent } from './shared/componentes/loading/loading.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavMenuComponent],
+  imports: [RouterOutlet, NavMenuComponent, LoadingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

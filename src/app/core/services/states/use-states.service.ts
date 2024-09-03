@@ -9,6 +9,21 @@ export class UseStatesService {
   selectedMunicipio = signal<string>("")
   selectedEstado = signal<string>("");
   selectedCargo = signal<string>("");
+  
+  private isLoading = signal(false);
 
   constructor() { }
+
+  get loading() {
+    return this.isLoading.asReadonly();
+  }
+
+  show(): void {
+    this.isLoading.set(true);
+  }
+
+  hide(): void {
+    this.isLoading.set(false);
+  }
+
 }
