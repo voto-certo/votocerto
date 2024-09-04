@@ -33,6 +33,8 @@
 }
 
 .candidate-photo {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #000; 
   width: 130px;
   height: 180px;
   border-radius: 8px;
