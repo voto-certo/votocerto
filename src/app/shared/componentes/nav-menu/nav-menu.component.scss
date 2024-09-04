@@ -15,6 +15,7 @@ nav a {
 .icon-text-container {
   display: flex;
   align-items: center; // Alinha verticalmente o ícone e o texto
+  cursor: pointer;
 }
 
 .icon-text {

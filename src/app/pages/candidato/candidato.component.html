@@ -9,7 +9,7 @@
                 'overlay-default': candidato.descricaoTotalizacao !== 'Não eleito' && candidato.descricaoTotalizacao !== 'Eleito'
             }">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
-                <p class="highlighted-text">{{candidato.nomeUrna}}</p>
+                <p class="highlighted-text">{{candidato.nomeUrna | capitalizeFirstLetters}}</p>
                 <p><strong>{{candidato?.cargo?.titular ? 'Titular' : 'Suplente'}}</strong></p>
                 <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura | capitalizeFirstLetters}}/{{candidato.ufSuperiorCandidatura}}</p>
                 <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
