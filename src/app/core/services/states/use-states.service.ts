@@ -1,11 +1,12 @@
 import { Injectable, signal } from '@angular/core';
-import { CandidatoResumo } from '../../models/Candidato';
+import { Candidato, CandidatoResumo } from '../../models/Candidato';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UseStatesService {
   candidatos = signal<CandidatoResumo[]>([]);
+  candidato = signal<Candidato>({} as Candidato);
   selectedMunicipio = signal<string>("")
   selectedEstado = signal<string>("");
   selectedCargo = signal<string>("");

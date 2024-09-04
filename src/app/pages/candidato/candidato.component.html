@@ -51,7 +51,7 @@
 
             <div class="expansion-panels">
                 <mat-accordion>
-                    <mat-expansion-panel>
+                    <mat-expansion-panel *ngIf="candidato.vices !== null && candidato.vices.length > 0">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 <mat-icon>people</mat-icon>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { TseService } from '../../core/services/tse/tse.service';
 import { UseStatesService } from '../../core/services/states/use-states.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class CandidatoComponent implements OnInit {
   ano_eleicao = '2024';
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router, private utilService: UtilService) {
-    
+    this.signalBeacon();
     
   }
 
@@ -42,11 +42,26 @@ export class CandidatoComponent implements OnInit {
 
   }
 
+  private signalBeacon(): void {
+    console.log('signal beacon');
+    // effect(() => {
+    //   if (this.useStatesService.candidato !== null ) {
+    //     console.log(`Candidato antes: `, this.candidato);
+
+    //     this.candidato = this.useStatesService.candidato();
+
+    //     console.log(`Candidato depois: `, this.candidato);
+
+    //   }
+    // });
+  }
+
   detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
 
     this.tseService.getCandidatoDetalhe({ano_eleicao: candidatoDetalheRequest.ano_eleicao, id_eleicao: candidatoDetalheRequest.id_eleicao, codigo_cidade: candidatoDetalheRequest.codigo_cidade, id_candidato: candidatoDetalheRequest.id_candidato }).subscribe({
       next: (response: Candidato) => {
-        this.candidato = response;
+        this.useStatesService.candidato.set(response);
+        this.candidato = this.useStatesService.candidato();
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);
