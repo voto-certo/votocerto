@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="candidato; else elseTemplate">
     <!-- Primeiro Card -->
     <mat-card class="custom-card custom-card-profile">
         <div class="photo-container">
@@ -191,3 +191,9 @@
         </mat-card-content>
     </mat-card>
 </div>
+
+<ng-template #elseTemplate>
+    <div>
+        Ops! candidato não encontrado.
+    </div>
+</ng-template>

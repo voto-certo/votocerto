@@ -17,6 +17,7 @@ import { UtilService } from '../../utils/services/util.service';
 export class CandidatosListaComponent {
 
   candidatos: CandidatoResumo[] = [];
+  filteredCandidatos: CandidatoResumo[] = [];
 
 
   constructor(private useStatesService: UseStatesService,  private router: Router, private utilService: UtilService) {
@@ -27,6 +28,7 @@ export class CandidatosListaComponent {
     effect(() => {
       if (this.useStatesService.candidatos() !== null && this.useStatesService.candidatos().length > 0) {
         this.candidatos = this.useStatesService.candidatos();
+        this.filteredCandidatos = this.candidatos;
       }
     });
   }
@@ -35,6 +37,14 @@ export class CandidatosListaComponent {
   detalhesCandidato(candidato: CandidatoResumo): void {
     console.log(`chamar detalhe candidato`, candidato);
     this.router.navigate(['/cidade', this.useStatesService.selectedMunicipio(), 'candidato', candidato.id]);
+  }
+  
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    this.filteredCandidatos = this.candidatos.filter(candidato =>
+      candidato.nomeCompleto.toLowerCase().includes(filterValue)
+    );
   }
   
 }

@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormatPipe } from '../utils/pipes/transforms/cnpj/format.pipe';
 import { CaptalizePipe } from '../utils/pipes/transforms/palavras/captalize.pipe';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [],
@@ -14,6 +16,8 @@ import { CaptalizePipe } from '../utils/pipes/transforms/palavras/captalize.pipe
     FlexLayoutModule,
     MatIconModule,
     MatButtonModule,
+    MatFormField,
+    MatInputModule,
     FormsModule, ReactiveFormsModule,
     FormatPipe,
     CaptalizePipe,
@@ -25,6 +29,8 @@ import { CaptalizePipe } from '../utils/pipes/transforms/palavras/captalize.pipe
     FlexLayoutModule,
     MatIconModule,
     MatButtonModule,
+    MatFormField,
+    MatInputModule,
     FormsModule, ReactiveFormsModule,
     FormatPipe,
     CaptalizePipe,
