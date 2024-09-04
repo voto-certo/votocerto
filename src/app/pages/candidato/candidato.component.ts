@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TseService } from '../../core/services/tse/tse.service';
 import { UseStatesService } from '../../core/services/states/use-states.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Arquivo, Candidato, Vice } from '../../core/models/Candidato';
+import { Candidato, CandidatoDetalheRequest, EleicaoAnterior, Vice } from '../../core/models/Candidato';
 import { SharedModule } from '../../shared/module/shared-module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -21,6 +21,8 @@ import { UtilService } from '../../shared/utils/services/util.service';
 export class CandidatoComponent implements OnInit {
 
   candidato: Candidato = {} as Candidato;
+  id_eleicao = '2045202024';
+  ano_eleicao = '2024';
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router, private utilService: UtilService) {
     
@@ -36,12 +38,13 @@ export class CandidatoComponent implements OnInit {
       throw new Error('ID da cidade ou do candidato não encontrado na rota');
     }
 
-    this.detalhesDoCandidato(idCandidato, idCidade);
+    this.detalhesDoCandidato({ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: idCidade, id_candidato: idCandidato});
+
   }
 
-  detalhesDoCandidato(idCandidato: string, idCidade: string): void {
+  detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
 
-    this.tseService.getCandidatoDetalhe({ codigo_cidade: idCidade, id_candidato: idCandidato }).subscribe({
+    this.tseService.getCandidatoDetalhe({ano_eleicao: candidatoDetalheRequest.ano_eleicao, id_eleicao: candidatoDetalheRequest.id_eleicao, codigo_cidade: candidatoDetalheRequest.codigo_cidade, id_candidato: candidatoDetalheRequest.id_candidato }).subscribe({
       next: (response: Candidato) => {
         this.candidato = response;
       },
@@ -54,7 +57,12 @@ export class CandidatoComponent implements OnInit {
     });
   }
 
-  visualizarCandidato(vice: Vice): void {
-    this.detalhesDoCandidato(vice.sq_CANDIDATO.toString(), vice.sg_UE);
+  visualizarViceCandidato(vice: Vice): void {
+    this.detalhesDoCandidato({ ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: vice.sg_UE, id_candidato: vice.sq_CANDIDATO.toString() });
+  }
+
+  visualizarCandidaturaRetroativa(eleicaoAnterior: EleicaoAnterior): void {
+    console.log(`Consultar eleição anterior: `, eleicaoAnterior);
+    this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno.toString(), codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
   }
 }

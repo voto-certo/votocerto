@@ -3,7 +3,11 @@
     <mat-card class="custom-card custom-card-profile">
         <div class="photo-container">
             <img [src]="candidato.fotoUrl" alt="Foto do Candidato" class="candidate-photo" *ngIf="candidato.fotoUrl">
-            <div class="overlay">{{candidato.descricaoTotalizacao}}</div>
+            <div class="overlay" [ngClass]="{
+                'overlay-nao-eleito': candidato.descricaoTotalizacao === 'Não eleito',
+                'overlay-eleito': candidato.descricaoTotalizacao === 'Eleito',
+                'overlay-default': candidato.descricaoTotalizacao !== 'Não eleito' && candidato.descricaoTotalizacao !== 'Eleito'
+            }">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
                 <p class="highlighted-text">{{candidato.nomeUrna}}</p>
                 <p><strong>{{candidato?.cargo?.titular ? 'Titular' : 'Suplente'}}</strong></p>
@@ -62,7 +66,7 @@
                                     <p>{{vice.ds_CARGO}}</p>
                                     <p>{{vice.nm_PARTIDO}} - {{vice.nr_CANDIDATO}}</p>
                                 </div>
-                                <button mat-raised-button color="primary" class="info-button" (click)="detalhesDoCandidato(vice.sq_CANDIDATO.toString(), vice.sg_UE)">Dados do Candidato</button>
+                                <button mat-raised-button color="primary" class="info-button" (click)="visualizarViceCandidato(vice)">Dados do Candidato</button>
                             }
 
                         </div>
@@ -79,6 +83,9 @@
                             @for (ea of candidato.eleicoesAnteriores; track ea) {
                                 <li>
                                     <strong>{{ea.nrAno}} {{ea.situacaoTotalizacao}}</strong> - Candidato a {{ea.cargo}} em {{ea.local | capitalizeFirstLetters }} pelo partido {{ea.partido}}.
+                                    <button mat-icon-button *ngIf="ea.nrAno !== 2024" (click)="visualizarCandidaturaRetroativa(ea)">
+                                        <mat-icon [matTooltip]="'Visualiza Candidatura de ' + ea.nrAno">search</mat-icon>
+                                    </button>
                                 </li>
                             }
                         </ul>
@@ -96,7 +103,7 @@
                         <ul class="bens-list">
                             <div class="bens-item" *ngIf="candidato.bens.length === 0; else listaDeBens">
                                 <!-- Este conteúdo será exibido se 'condicao' for verdadeira -->
-                                <p>Condição verdadeira!</p>
+                                <p>Nada Consta no TSE</p>
                             </div>
                             <ng-template #listaDeBens>
                                 @for (bem of candidato.bens; track bem) {

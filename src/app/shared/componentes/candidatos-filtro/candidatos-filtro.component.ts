@@ -17,10 +17,13 @@ import { UseStatesService } from '../../../core/services/states/use-states.servi
   styleUrl: './candidatos-filtro.component.scss'
 })
 export class CandidatosFiltroComponent {
+  id_eleicao = '2045202024';
+  ano_eleicao = '2024';
 
   estados: Estado[] = [];
   municipios: Municipio[] = [];
   cargos: Cargo[] = [];
+
 
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService) {
@@ -29,7 +32,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarEstados(): void {
-    this.tseService.getEstadosEleitorais().subscribe({
+    this.tseService.getEstadosEleitorais(this.id_eleicao).subscribe({
       next: (response: EstadosResponse) => {
         response.ues.map((ue: { nome: string; }) => ue.nome !== 'BRASIL');
         this.estados = response.ues.filter((item: { nome: string; }) => item.nome !== 'BRASIL');
@@ -44,7 +47,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarMunicipios(): void {
-    this.tseService.getMunicipiosDoEstado(this.useStatesService.selectedEstado()).subscribe({
+    this.tseService.getMunicipiosDoEstado({ id_eleicao: this.id_eleicao, sigla: this.useStatesService.selectedEstado()}).subscribe({
       next: (response: MunicipioResponse) => {
         this.municipios = response.municipios;
       },
@@ -58,7 +61,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarCandidatos(): void {
-    this.tseService.getCandidatos({ codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
+    this.tseService.getCandidatos({ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
       next: (response: CandidatosResponse) => {
         this.useStatesService.candidatos.set(response.candidatos.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto)));
       },

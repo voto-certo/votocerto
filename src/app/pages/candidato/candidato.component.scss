@@ -42,10 +42,21 @@
 .overlay {
   position: absolute;
   top: 35%;
-  background-color: #add8e6; /* Azul claro */
   color: black;
   padding: 2px 5px;
   border-radius: 4px;
+}
+
+.overlay-nao-eleito {
+  background-color: #f94449;
+}
+
+.overlay-eleito {
+  background-color: #588100;
+}
+
+.overlay-default {
+  background-color: #add8e6;
 }
 
 .highline {

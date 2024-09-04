@@ -1,7 +1,9 @@
 //Interfaces para detalhe de um candidato
 export interface CandidatoDetalheRequest {
     codigo_cidade: string,
-    id_candidato: string
+    id_candidato: string,
+    ano_eleicao: string,
+    id_eleicao: string
 }
 
 export interface Cargo {
@@ -193,7 +195,9 @@ export interface Candidato {
 //Interfaces para lista de candidatos
 export interface CandidatosRequest{
     codigo_cidade: string,
-    codigo_cargo: string
+    codigo_cargo: string,
+    ano_eleicao: string,
+    id_eleicao: string
 }
 
 
