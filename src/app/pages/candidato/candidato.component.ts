@@ -65,4 +65,17 @@ export class CandidatoComponent implements OnInit {
     console.log(`Consultar eleição anterior: `, eleicaoAnterior);
     this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno.toString(), codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
   }
+
+  buscarIcone(site: string): string {
+    if (site.includes('instagram')) {
+      return 'link'; // Substitua com o nome do ícone do Instagram em sua biblioteca de ícones
+    } else if (site.includes('facebook')) {
+      return 'facebook'; // Substitua com o nome do ícone do Facebook em sua biblioteca de ícones
+    } else if (site.includes('tiktok')) {
+      return 'tiktok'; // Substitua com o nome do ícone do TikTok em sua biblioteca de ícones
+    } else {
+      return 'link'; // Substitua com o nome do ícone de link padrão em sua biblioteca de ícones
+    }
+  }
+
 }
