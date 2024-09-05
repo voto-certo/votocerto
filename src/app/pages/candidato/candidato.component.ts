@@ -39,6 +39,29 @@ export class CandidatoComponent implements OnInit {
 
   }
 
+  shareCandidate(candidato: Candidato): void {
+    // Construa a URL substituindo os IDs
+    const updatedUrl = window.location.href.replace(/cidade\/\d+/, `cidade/${candidato.ufCandidatura}`).replace(/candidato\/\d+/, `candidato/${candidato.id}`);
+
+    // Cria a string com informações do candidato
+    const candidateInfo = `
+      Confira as informações do candidato ${candidato.nomeUrna} na página Voto Certo:
+      
+      Cargo: ${candidato.cargo.nome}
+      Partido: ${candidato.partido.nome} - ${candidato.partido.sigla}
+      Número: ${candidato.numero}
+
+      Saiba mais em: ${updatedUrl}
+    `;
+
+    // Copia a string para a área de transferência
+    navigator.clipboard.writeText(candidateInfo).then(() => {
+      alert('Informações copiadas para a área de transferência!');
+    }).catch(err => {
+      console.error('Erro ao copiar para a área de transferência:', err);
+      this.utilService.openDialog(DialogType.Error);
+    });
+  }
 
   detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
 
@@ -62,7 +85,6 @@ export class CandidatoComponent implements OnInit {
   }
 
   visualizarCandidaturaRetroativa(eleicaoAnterior: EleicaoAnterior): void {
-    console.log(`Consultar eleição anterior: `, eleicaoAnterior);
     this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno.toString(), codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
   }
 
@@ -79,3 +101,4 @@ export class CandidatoComponent implements OnInit {
   }
 
 }
+

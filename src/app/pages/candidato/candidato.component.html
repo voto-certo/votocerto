@@ -9,6 +9,9 @@
                 'overlay-default': candidato.descricaoTotalizacao !== 'Não eleito' && candidato.descricaoTotalizacao !== 'Eleito'
             }">{{candidato.descricaoTotalizacao}}</div>
             <div class="card-content">
+                <button mat-icon-button color="primary" (click)="shareCandidate(candidato)">
+                    <mat-icon>share</mat-icon>
+                </button>
                 <p class="highlighted-text">{{candidato.nomeUrna | capitalizeFirstLetters}}</p>
                 <p><strong>{{candidato.cargo.titular ? 'Titular' : 'Suplente'}}</strong></p>
                 <p>{{candidato.cargo.nome}} - {{candidato.localCandidatura |
@@ -16,6 +19,7 @@
                 <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
                 <p>{{candidato.cnpjcampanha | formatCnpj}}</p>
                 <p class="highlighted-text">{{candidato.numero}}</p>
+
 
             </div>
         </div>
@@ -28,9 +32,9 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p><strong>Nome Completo:</strong> {{candidato.nomeCompleto}}</p>
             <div class="info-blocks">
                 <div class="info-block">
+                    <p><strong>Nome Completo:</strong> {{candidato.nomeCompleto}}</p>
                     <p><strong>Data de Nascimento:</strong> {{candidato.dataDeNascimento | date:'dd/MM/yyyy'}}</p>
                     <p><strong>Gênero:</strong> {{candidato.descricaoSexo === 'MASC.' ? 'Masculino' : 'Feminino'}}</p>
                     <p><strong>Cor / Raça:</strong> {{candidato.descricaoCorRaca | capitalizeFirstLetters}}</p>
@@ -76,7 +80,6 @@
                             <button mat-raised-button color="primary" class="info-button"
                                 (click)="visualizarViceCandidato(vice)">Dados do Candidato</button>
                             }
-
                         </div>
                     </mat-expansion-panel>
 

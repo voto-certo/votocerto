@@ -25,7 +25,7 @@
 
 .card-content {
   text-align: center;
-  margin-top: 15%;
+  margin-top: 2%;
 }
 
 .photo-container {
@@ -38,7 +38,7 @@
 
 .candidate-photo {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  border: 1px solid #000; 
+  border: 1px solid #000;
   width: 130px;
   height: 180px;
   border-radius: 8px;
@@ -130,7 +130,7 @@ mat-icon {
 
 .info-text {
   flex: 1;
-  margin-left: 15px;
+  margin: 5%;
 }
 
 .info-button {
@@ -191,13 +191,15 @@ mat-icon.mat-tooltip {
 
 /* Media queries para telas menores */
 @media (max-width: 1200px) {
-  .custom-card-profile, .custom-card-resume {
+  .custom-card-profile,
+  .custom-card-resume {
     width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .custom-card-profile, .custom-card-resume {
+  .custom-card-profile,
+  .custom-card-resume {
     max-width: none; /* Remove a largura máxima em telas menores */
   }
 
@@ -208,15 +210,39 @@ mat-icon.mat-tooltip {
   .info-block {
     width: 100%; /* Faz com que cada bloco ocupe toda a largura disponível */
   }
+
+  .info-container {
+    flex-direction: column; /* Alinha os itens verticalmente em telas menores */
+    align-items: center; /* Centraliza os itens horizontalmente em telas menores */
+  }
+
+  .candidate-photo {
+    width: 100px; /* Ajusta o tamanho da foto para telas menores */
+    height: 140px; /* Ajusta a altura da foto para telas menores */
+  }
+
+  .card-content {
+    text-align: center;
+    margin-top: 15%;
+  }
+
+  .overlay {
+    top: 26%;
+  }
 }
 
 @media (max-width: 480px) {
-  .candidate-photo {
-    width: 100px; /* Ajusta o tamanho da foto em telas menores */
-    height: 140px; /* Ajusta a altura da foto em telas menores */
-  }
 
   .highlighted-text {
     font-size: 1.2em; /* Ajusta o tamanho da fonte para telas menores */
+  }
+
+
+  .info-text {
+    font-size: 14px; /* Ajusta o tamanho da fonte para telas menores */
+  }
+
+  .info-button {
+    width: 100%; /* Faz com que o botão ocupe toda a largura disponível em telas menores */
   }
 }
