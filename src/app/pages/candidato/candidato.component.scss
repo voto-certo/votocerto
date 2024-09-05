@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte quando necessário */
   justify-content: space-around;
   gap: 20px;
   padding: 20px;
@@ -8,15 +9,18 @@
 .custom-card {
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex: 1; /* Permite que os cards se ajustem automaticamente */
 }
 
 .custom-card-profile {
   max-height: 500px;
-  width: 20%;
+  width: 100%; /* Permite que o card use toda a largura disponível em telas menores */
+  max-width: 20%; /* Define um tamanho máximo para não ficar excessivamente largo em telas maiores */
 }
 
 .custom-card-resume {
-  width: 65%;
+  width: 100%; /* Permite que o card use toda a largura disponível em telas menores */
+  max-width: 70%; /* Define um tamanho máximo para não ficar excessivamente largo em telas maiores */
 }
 
 .card-content {
@@ -182,5 +186,37 @@ mat-icon.mat-tooltip {
   .highlighted-text {
     font-weight: bold;
     color: #000;
+  }
+}
+
+/* Media queries para telas menores */
+@media (max-width: 1200px) {
+  .custom-card-profile, .custom-card-resume {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-card-profile, .custom-card-resume {
+    max-width: none; /* Remove a largura máxima em telas menores */
+  }
+
+  .info-blocks {
+    flex-direction: column; /* Empilha os blocos de informações verticalmente em telas menores */
+  }
+
+  .info-block {
+    width: 100%; /* Faz com que cada bloco ocupe toda a largura disponível */
+  }
+}
+
+@media (max-width: 480px) {
+  .candidate-photo {
+    width: 100px; /* Ajusta o tamanho da foto em telas menores */
+    height: 140px; /* Ajusta a altura da foto em telas menores */
+  }
+
+  .highlighted-text {
+    font-size: 1.2em; /* Ajusta o tamanho da fonte para telas menores */
   }
 }
