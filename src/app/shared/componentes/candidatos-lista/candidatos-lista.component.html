@@ -17,7 +17,7 @@
             @for (candidato of filteredCandidatos; track candidato) {
             <mat-card class="candidato-card" [matTooltip]="'Visualizar Detalhes do Candidato'" (click)="detalhesCandidato(candidato)">
                 <div class="avatar-container">
-                    <img src="https://via.placeholder.com/150" alt="{{candidato.nomeCompleto}}" class="avatar">
+                    <img [src]="'https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/img/2045202024/'+candidato.id+'/'+candidato.ufCandidatura" alt="{{candidato.nomeCompleto}}" class="avatar">
                 </div>
                 <div class="candidato-info">
                     <div class="candidato-nome">{{candidato.nomeCompleto | capitalizeFirstLetters}}</div>
