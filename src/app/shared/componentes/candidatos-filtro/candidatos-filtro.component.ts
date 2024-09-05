@@ -8,6 +8,8 @@ import { Estado, EstadosResponse } from '../../../core/models/Estado';
 import { TseService } from '../../../core/services/tse/tse.service';
 import { Cargo } from '../../../core/models/Cargo';
 import { UseStatesService } from '../../../core/services/states/use-states.service';
+import { UtilService } from '../../utils/services/util.service';
+import { DialogType } from '../../enums/dialog.enum';
 
 @Component({
   selector: 'app-candidatos-filtro',
@@ -26,7 +28,7 @@ export class CandidatosFiltroComponent {
 
 
 
-  constructor(private tseService: TseService, private useStatesService: UseStatesService) {
+  constructor(private tseService: TseService, private useStatesService: UseStatesService, private utilService: UtilService) {
     this.buscarEstados();
     this.cargos = tseService.getCargos();
   }
@@ -38,6 +40,7 @@ export class CandidatosFiltroComponent {
         this.estados = response.ues.filter((item: { nome: string; }) => item.nome !== 'BRASIL');
       },
       error: (error: any) => {
+        this.utilService.openDialog(DialogType.Error);
         console.error('Erro na requisição:', error);
       },
       complete: () => {
@@ -52,6 +55,7 @@ export class CandidatosFiltroComponent {
         this.municipios = response.municipios;
       },
       error: (error: any) => {
+        this.utilService.openDialog(DialogType.Error);
         console.error('Erro na requisição:', error);
       },
       complete: () => {
@@ -67,6 +71,7 @@ export class CandidatosFiltroComponent {
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);
+        this.utilService.openDialog(DialogType.Error);
       },
       complete: () => {
         console.info('Requisição completa');

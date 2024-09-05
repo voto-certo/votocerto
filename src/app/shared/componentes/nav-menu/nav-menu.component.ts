@@ -3,6 +3,7 @@ import { SharedModule } from '../../module/shared-module';
 import { UtilService } from '../../utils/services/util.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { DialogType } from '../../enums/dialog.enum';
 
 @Component({
   selector: 'app-nav-menu',
@@ -19,7 +20,7 @@ export class NavMenuComponent {
   }
 
   openDialog() {
-    this.utilService.openInfoDialog();
+    this.utilService.openDialog(DialogType.Info);
   }
 
   

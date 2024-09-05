@@ -5,6 +5,7 @@ import { UtilService } from './shared/utils/services/util.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LoadingComponent } from './shared/componentes/loading/loading.component';
 import { SharedModule } from './shared/module/shared-module';
+import { DialogType } from './shared/enums/dialog.enum';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const value = localStorage.getItem('acceptanceDateTime');
-      if (value === null) this.utilService.openInfoDialog();
+      if (value === null) this.utilService.openDialog(DialogType.Info);
     }
   }
 

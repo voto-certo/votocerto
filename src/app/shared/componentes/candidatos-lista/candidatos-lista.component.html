@@ -1,7 +1,7 @@
 <div class="list-container">
     <app-candidatos-filtro></app-candidatos-filtro>
 
-    <ng-container *ngIf="candidatos !== null && candidatos.length > 0">
+    <ng-container *ngIf="candidatos.length > 0">
         <mat-form-field>
             <mat-icon matPrefix>search</mat-icon>
             <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Candidato">
@@ -12,7 +12,7 @@
     </ng-container>
 
 
-    <ng-container *ngIf="filteredCandidatos && filteredCandidatos.length > 0">
+    <ng-container *ngIf="filteredCandidatos.length > 0">
         <div class="card-container">
             @for (candidato of filteredCandidatos; track candidato) {
             <mat-card class="candidato-card" [matTooltip]="'Visualizar Detalhes do Candidato'" (click)="detalhesCandidato(candidato)">

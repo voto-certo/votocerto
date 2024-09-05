@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared/module/shared-module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UtilService } from '../../shared/utils/services/util.service';
+import { DialogType } from '../../shared/enums/dialog.enum';
 
 @Component({
   selector: 'app-candidato',
@@ -48,6 +49,7 @@ export class CandidatoComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);
+        this.utilService.openDialog(DialogType.Error);
       },
       complete: () => {
         console.info('Requisição completa');

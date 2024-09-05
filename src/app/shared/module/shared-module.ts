@@ -11,7 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [],
   imports: [
@@ -26,7 +27,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CaptalizePipe,
     DatePipe,
     CurrencyPipe,
-    MatCardModule, MatDividerModule, MatTooltipModule
+    MatCardModule, MatDividerModule, MatTooltipModule,
+    MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatCheckboxModule
   ],
   exports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CaptalizePipe,
     DatePipe,
     CurrencyPipe,
-    MatCardModule, MatDividerModule, MatTooltipModule
+    MatCardModule, MatDividerModule, MatTooltipModule,
+    MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatCheckboxModule
 
   ]
 })
