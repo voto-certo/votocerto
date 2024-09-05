@@ -1,21 +1,35 @@
 <div class="list-container">
-<app-candidatos-filtro></app-candidatos-filtro>
-<mat-form-field *ngIf="candidatos !== null && candidatos.length > 0">
-    <mat-icon matPrefix>search</mat-icon>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Candidato">
-</mat-form-field>
+    <app-candidatos-filtro></app-candidatos-filtro>
 
-<ng-container *ngIf="filteredCandidatos && filteredCandidatos.length > 0">
-    <mat-list>
-        <div mat-subheader>Candidatos</div>
-        @for (candidato of filteredCandidatos; track candidato) {
-        <mat-list-item (click)="detalhesCandidato(candidato)">
-            <mat-icon matListItemIcon>zoom_in</mat-icon>
-            <div matListItemTitle>{{candidato.nomeCompleto | capitalizeFirstLetters}}</div>
-            <div matListItemLine>Número: {{candidato.numero}} - Partido: {{candidato.partido.sigla}}</div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        }
-    </mat-list>
-</ng-container>
+    <ng-container *ngIf="candidatos !== null && candidatos.length > 0">
+        <mat-form-field>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Candidato">
+        </mat-form-field>
+
+        <p>Total de Candidatos: <strong>{{candidatos.length}}</strong></p>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="filteredCandidatos && filteredCandidatos.length > 0">
+        <div class="card-container">
+            @for (candidato of filteredCandidatos; track candidato) {
+            <mat-card class="candidato-card" [matTooltip]="'Visualizar Detalhes do Candidato'" (click)="detalhesCandidato(candidato)">
+                <div class="avatar-container">
+                    <img src="https://via.placeholder.com/150" alt="{{candidato.nomeCompleto}}" class="avatar">
+                </div>
+                <div class="candidato-info">
+                    <div class="candidato-nome">{{candidato.nomeCompleto | capitalizeFirstLetters}}</div>
+                    <div class="candidato-partido">{{candidato.partido.sigla}}</div>
+                    <div class="candidato-numero">{{candidato.numero}}</div>
+                </div>
+            </mat-card>
+            }
+        </div>
+    </ng-container>
+
+    <button *ngIf="filteredCandidatos.length > 5" mat-fab class="scroll-to-top" [matTooltip]="'Navegar para o topo'"  (click)="scrollToTop()">
+        <mat-icon>arrow_upward</mat-icon>
+    </button>
 </div>

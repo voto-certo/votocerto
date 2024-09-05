@@ -5,6 +5,80 @@
   margin: 0 auto;
 }
 
-mat-list-item {
-  cursor: pointer !important;
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.candidato-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.candidato-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Drop shadow */
+
+  /* Borda com degradê de azul claro para branco */
+  border: 4px solid transparent;
+  background-image: linear-gradient(white, white),
+    linear-gradient(45deg, #87cefa, #ffffff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.candidato-info {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.candidato-nome {
+  font-size: 1.2em;
+}
+
+.candidato-partido,
+.candidato-numero {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 10%;
+  right: 5px;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform: translateY(50px);
+
+  &:hover {
+    background-color: #b2ebf2; /* Cor de hover */
+  }
+
+  mat-icon {
+    font-size: 24px;
+  }
 }

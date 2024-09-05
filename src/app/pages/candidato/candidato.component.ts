@@ -5,16 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Candidato, CandidatoDetalheRequest, EleicaoAnterior, Vice } from '../../core/models/Candidato';
 import { SharedModule } from '../../shared/module/shared-module';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { UtilService } from '../../shared/utils/services/util.service';
 
 @Component({
   selector: 'app-candidato',
   standalone: true,
-  imports: [SharedModule, MatGridListModule, MatCardModule, MatDividerModule, MatExpansionModule, MatTooltipModule],
+  imports: [SharedModule, MatGridListModule, MatExpansionModule],
   templateUrl: './candidato.component.html',
   styleUrl: './candidato.component.scss'
 })
@@ -25,8 +22,7 @@ export class CandidatoComponent implements OnInit {
   ano_eleicao = '2024';
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router, private utilService: UtilService) {
-    this.signalBeacon();
-    
+
   }
 
   ngOnInit(): void {
@@ -42,19 +38,6 @@ export class CandidatoComponent implements OnInit {
 
   }
 
-  private signalBeacon(): void {
-    console.log('signal beacon');
-    // effect(() => {
-    //   if (this.useStatesService.candidato !== null ) {
-    //     console.log(`Candidato antes: `, this.candidato);
-
-    //     this.candidato = this.useStatesService.candidato();
-
-    //     console.log(`Candidato depois: `, this.candidato);
-
-    //   }
-    // });
-  }
 
   detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
 

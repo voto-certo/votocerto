@@ -8,6 +8,9 @@ import { FormatPipe } from '../utils/pipes/transforms/cnpj/format.pipe';
 import { CaptalizePipe } from '../utils/pipes/transforms/palavras/captalize.pipe';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -22,7 +25,8 @@ import { MatInputModule } from '@angular/material/input';
     FormatPipe,
     CaptalizePipe,
     DatePipe,
-    CurrencyPipe
+    CurrencyPipe,
+    MatCardModule, MatDividerModule, MatTooltipModule
   ],
   exports: [
     CommonModule,
@@ -35,7 +39,9 @@ import { MatInputModule } from '@angular/material/input';
     FormatPipe,
     CaptalizePipe,
     DatePipe,
-    CurrencyPipe
+    CurrencyPipe,
+    MatCardModule, MatDividerModule, MatTooltipModule
+
   ]
 })
 export class SharedModule { }

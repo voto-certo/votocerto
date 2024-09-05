@@ -46,5 +46,12 @@ export class CandidatosListaComponent {
       candidato.nomeCompleto.toLowerCase().includes(filterValue)
     );
   }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Transição suave para o topo
+    });
+  }
   
 }
