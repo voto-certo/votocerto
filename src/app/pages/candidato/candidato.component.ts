@@ -1,30 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { TseService } from '../../core/services/tse/tse.service';
 import { UseStatesService } from '../../core/services/states/use-states.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Arquivo, Candidato, Vice } from '../../core/models/Candidato';
+import { Candidato, CandidatoDetalheRequest, EleicaoAnterior, Vice } from '../../core/models/Candidato';
 import { SharedModule } from '../../shared/module/shared-module';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { UtilService } from '../../shared/utils/services/util.service';
+import { DialogType } from '../../shared/enums/dialog.enum';
 
 @Component({
   selector: 'app-candidato',
   standalone: true,
-  imports: [SharedModule, MatGridListModule, MatCardModule, MatDividerModule, MatExpansionModule, MatTooltipModule],
+  imports: [SharedModule, MatGridListModule, MatExpansionModule],
   templateUrl: './candidato.component.html',
   styleUrl: './candidato.component.scss'
 })
 export class CandidatoComponent implements OnInit {
 
   candidato: Candidato = {} as Candidato;
+  id_eleicao = '2045202024';
+  ano_eleicao = '2024';
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router, private utilService: UtilService) {
-    
-    
+
   }
 
   ngOnInit(): void {
@@ -36,17 +35,44 @@ export class CandidatoComponent implements OnInit {
       throw new Error('ID da cidade ou do candidato não encontrado na rota');
     }
 
-    this.detalhesDoCandidato(idCandidato, idCidade);
+    this.detalhesDoCandidato({ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: idCidade, id_candidato: idCandidato});
+
   }
 
-  detalhesDoCandidato(idCandidato: string, idCidade: string): void {
+  shareCandidate(candidato: Candidato): void {
+    // Construa a URL substituindo os IDs
+    const updatedUrl = window.location.href.replace(/cidade\/\d+/, `cidade/${candidato.ufCandidatura}`).replace(/candidato\/\d+/, `candidato/${candidato.id}`);
 
-    this.tseService.getCandidatoDetalhe({ codigo_cidade: idCidade, id_candidato: idCandidato }).subscribe({
+    // Cria a string com informações do candidato
+    const candidateInfo = `
+      Confira as informações do candidato ${candidato.nomeUrna} na página Voto Certo:
+      
+      Cargo: ${candidato.cargo.nome}
+      Partido: ${candidato.partido.nome} - ${candidato.partido.sigla}
+      Número: ${candidato.numero}
+
+      Saiba mais em: ${updatedUrl}
+    `;
+
+    // Copia a string para a área de transferência
+    navigator.clipboard.writeText(candidateInfo).then(() => {
+      alert('Informações copiadas para a área de transferência!');
+    }).catch(err => {
+      console.error('Erro ao copiar para a área de transferência:', err);
+      this.utilService.openDialog(DialogType.Error);
+    });
+  }
+
+  detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
+
+    this.tseService.getCandidatoDetalhe({ano_eleicao: candidatoDetalheRequest.ano_eleicao, id_eleicao: candidatoDetalheRequest.id_eleicao, codigo_cidade: candidatoDetalheRequest.codigo_cidade, id_candidato: candidatoDetalheRequest.id_candidato }).subscribe({
       next: (response: Candidato) => {
-        this.candidato = response;
+        this.useStatesService.candidato.set(response);
+        this.candidato = this.useStatesService.candidato();
       },
       error: (error: any) => {
         console.error('Erro na requisição:', error);
+        this.utilService.openDialog(DialogType.Error);
       },
       complete: () => {
         console.info('Requisição completa');
@@ -54,7 +80,25 @@ export class CandidatoComponent implements OnInit {
     });
   }
 
-  visualizarCandidato(vice: Vice): void {
-    this.detalhesDoCandidato(vice.sq_CANDIDATO.toString(), vice.sg_UE);
+  visualizarViceCandidato(vice: Vice): void {
+    this.detalhesDoCandidato({ ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: vice.sg_UE, id_candidato: vice.sq_CANDIDATO.toString() });
   }
+
+  visualizarCandidaturaRetroativa(eleicaoAnterior: EleicaoAnterior): void {
+    this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno.toString(), codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
+  }
+
+  buscarIcone(site: string): string {
+    if (site.includes('instagram')) {
+      return 'link'; // Substitua com o nome do ícone do Instagram em sua biblioteca de ícones
+    } else if (site.includes('facebook')) {
+      return 'facebook'; // Substitua com o nome do ícone do Facebook em sua biblioteca de ícones
+    } else if (site.includes('tiktok')) {
+      return 'tiktok'; // Substitua com o nome do ícone do TikTok em sua biblioteca de ícones
+    } else {
+      return 'link'; // Substitua com o nome do ícone de link padrão em sua biblioteca de ícones
+    }
+  }
+
 }
+

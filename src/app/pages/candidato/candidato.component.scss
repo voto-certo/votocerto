@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte quando necessário */
   justify-content: space-around;
   gap: 20px;
   padding: 20px;
@@ -8,20 +9,24 @@
 .custom-card {
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex: 1; /* Permite que os cards se ajustem automaticamente */
+  margin-bottom: 10%;
 }
 
 .custom-card-profile {
   max-height: 500px;
-  width: 20%;
+  width: 100%; /* Permite que o card use toda a largura disponível em telas menores */
+  max-width: 20%; /* Define um tamanho máximo para não ficar excessivamente largo em telas maiores */
 }
 
 .custom-card-resume {
-  width: 65%;
+  width: 100%; /* Permite que o card use toda a largura disponível em telas menores */
+  max-width: 70%; /* Define um tamanho máximo para não ficar excessivamente largo em telas maiores */
 }
 
 .card-content {
   text-align: center;
-  margin-top: 15%;
+  margin-top: 2%;
 }
 
 .photo-container {
@@ -33,6 +38,8 @@
 }
 
 .candidate-photo {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #000;
   width: 130px;
   height: 180px;
   border-radius: 8px;
@@ -42,10 +49,21 @@
 .overlay {
   position: absolute;
   top: 35%;
-  background-color: #add8e6; /* Azul claro */
   color: black;
   padding: 2px 5px;
   border-radius: 4px;
+}
+
+.overlay-nao-eleito {
+  background-color: #f94449;
+}
+
+.overlay-eleito {
+  background-color: #588100;
+}
+
+.overlay-default {
+  background-color: #add8e6;
 }
 
 .highline {
@@ -99,7 +117,6 @@ mat-expansion-panel-header {
 
 mat-icon {
   margin-right: 8px;
-  color: #3f51b5; /* Cor do ícone */
 }
 
 .info-container {
@@ -114,7 +131,7 @@ mat-icon {
 
 .info-text {
   flex: 1;
-  margin-left: 15px;
+  margin: 5%;
 }
 
 .info-button {
@@ -170,5 +187,63 @@ mat-icon.mat-tooltip {
   .highlighted-text {
     font-weight: bold;
     color: #000;
+  }
+}
+
+/* Media queries para telas menores */
+@media (max-width: 1200px) {
+  .custom-card-profile,
+  .custom-card-resume {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-card-profile,
+  .custom-card-resume {
+    max-width: none; /* Remove a largura máxima em telas menores */
+  }
+
+  .info-blocks {
+    flex-direction: column; /* Empilha os blocos de informações verticalmente em telas menores */
+  }
+
+  .info-block {
+    width: 100%; /* Faz com que cada bloco ocupe toda a largura disponível */
+  }
+
+  .info-container {
+    flex-direction: column; /* Alinha os itens verticalmente em telas menores */
+    align-items: center; /* Centraliza os itens horizontalmente em telas menores */
+  }
+
+  .candidate-photo {
+    width: 100px; /* Ajusta o tamanho da foto para telas menores */
+    height: 140px; /* Ajusta a altura da foto para telas menores */
+  }
+
+  .card-content {
+    text-align: center;
+    margin-top: 15%;
+  }
+
+  .overlay {
+    top: 26%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .highlighted-text {
+    font-size: 1.2em; /* Ajusta o tamanho da fonte para telas menores */
+  }
+
+
+  .info-text {
+    font-size: 14px; /* Ajusta o tamanho da fonte para telas menores */
+  }
+
+  .info-button {
+    width: 100%; /* Faz com que o botão ocupe toda a largura disponível em telas menores */
   }
 }
