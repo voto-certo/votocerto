@@ -1,18 +1,21 @@
-import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavMenuComponent } from './shared/componentes/nav-menu/nav-menu.component';
 import { UtilService } from './shared/utils/services/util.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LoadingComponent } from './shared/componentes/loading/loading.component';
+import { DialogType } from './shared/enums/dialog.enum';
+import { FooterComponent } from "./shared/componentes/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavMenuComponent, LoadingComponent],
+  imports: [RouterOutlet, NavMenuComponent, LoadingComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  
   title = 'vote_certo';
 
   constructor(private utilService: UtilService, @Inject(PLATFORM_ID) private platformId: Object) { }
@@ -20,7 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const value = localStorage.getItem('acceptanceDateTime');
-      if (value === null) this.utilService.openInfoDialog();  
+      if (value === null) this.utilService.openDialog(DialogType.Info);
     }
   }
 

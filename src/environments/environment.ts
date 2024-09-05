@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     apiBaseUrl: 'https://divulgacandcontas.tse.jus.br/divulga/rest/v1',
     endpoints: {
         eleicao: '/eleicao',
