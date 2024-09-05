@@ -19,8 +19,6 @@
                 <p>{{candidato.partido.nome}} - {{candidato.partido.sigla}}</p>
                 <p>{{candidato.cnpjcampanha | formatCnpj}}</p>
                 <p class="highlighted-text">{{candidato.numero}}</p>
-
-
             </div>
         </div>
     </mat-card>
@@ -137,7 +135,6 @@
 
                         </ul>
                     </mat-expansion-panel>
-
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -210,7 +207,11 @@
 </div>
 
 <ng-template #elseTemplate>
-    <div>
-        Ops! candidato não encontrado.
-    </div>
+<div class="container">
+    <!-- Primeiro Card -->
+    <mat-card class="custom-card custom-card-resume">
+        <h3>Ops! Candidato não encontrado, refaça sua pesquisa.</h3>
+    </mat-card>
+</div>
 </ng-template>
+
