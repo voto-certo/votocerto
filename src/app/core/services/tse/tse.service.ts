@@ -6,7 +6,8 @@ import { EstadosResponse } from '../../models/Estado';
 import { environment } from '../../../../environments/environment';
 import { MunicipioRequest, MunicipioResponse } from '../../models/Municipio';
 import { Candidato, CandidatoDetalheRequest, CandidatosRequest, CandidatosResponse } from '../../models/Candidato';
-import { Cargo } from '../../models/Cargo';
+import { Cargo, TipoAbrangencia } from '../../models/Cargo';
+import { Eleicao } from '../../models/Ordinaria';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class TseService {
 
   constructor(private http: HttpClient) { }
 
-  getEstadosEleitorais(id_eleicao: string): Observable<EstadosResponse> {
+  getEstadosEleitorais(id_eleicao: number): Observable<EstadosResponse> {
     return this.fetchWithCache<EstadosResponse>(
       `estados-${id_eleicao}`,
       () => this.http.get<EstadosResponse>(`${this.baseUrl}/eleicao/eleicao-atual?idEleicao=${id_eleicao}`)
@@ -40,7 +41,6 @@ export class TseService {
   }
 
   getCandidatoDetalhe(candidatoRequest: CandidatoDetalheRequest): Observable<Candidato> {
-    console.log('Candidato detlahe request: ', candidatoRequest);
     const cacheKey = `candidato-${candidatoRequest.ano_eleicao}-${candidatoRequest.codigo_cidade}-${candidatoRequest.id_eleicao}-${candidatoRequest.id_candidato}`;
     return this.fetchWithCache<Candidato>(
       cacheKey,
@@ -51,18 +51,75 @@ export class TseService {
   getCargos(): Cargo[] {
     return [
       {
+        nome: "Presidente",
+        valor: "1",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Vice-presidente",
+        valor: "2",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Governador",
+        valor: "3",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Vice-governador",
+        valor: "4",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Senador",
+        valor: "5",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Deputado Federal",
+        valor: "6",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "Deputado Estadual",
+        valor: "7",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "1º Suplente",
+        valor: "9",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
+        nome: "2º Suplente",
+        valor: "10",
+        abrangencia: TipoAbrangencia.Federal
+      },
+      {
         nome: "Prefeito",
         valor: "11",
+        abrangencia: TipoAbrangencia.Municipal
       },
       {
         nome: "Vice-Prefeito",
         valor: "12",
+        abrangencia: TipoAbrangencia.Municipal
       },
       {
         nome: "Vereador",
         valor: "13",
+        abrangencia: TipoAbrangencia.Municipal
       }
-    ];
+    ]
+  }
+
+
+  getEleicoes(): Observable<Eleicao[]> {
+    const cacheKey = 'eleicoes-ordinarias';
+    return this.fetchWithCache<Eleicao[]>(
+      cacheKey,
+      () => this.http.get<Eleicao[]>(`${this.baseUrl}/ata/ordinarias`)
+    );
   }
 
   private fetchWithCache<T>(cacheKey: string, httpCall: () => Observable<T>): Observable<T> {

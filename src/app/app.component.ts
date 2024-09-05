@@ -4,13 +4,13 @@ import { NavMenuComponent } from './shared/componentes/nav-menu/nav-menu.compone
 import { UtilService } from './shared/utils/services/util.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LoadingComponent } from './shared/componentes/loading/loading.component';
-import { SharedModule } from './shared/module/shared-module';
 import { DialogType } from './shared/enums/dialog.enum';
+import { FooterComponent } from "./shared/componentes/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavMenuComponent, LoadingComponent],
+  imports: [RouterOutlet, NavMenuComponent, LoadingComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

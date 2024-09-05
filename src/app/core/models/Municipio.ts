@@ -10,5 +10,5 @@ export interface MunicipioResponse {
 
 export interface MunicipioRequest {
     sigla: string;
-    id_eleicao: string;
+    id_eleicao: number;
 }

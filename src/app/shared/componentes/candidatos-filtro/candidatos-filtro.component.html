@@ -1,5 +1,14 @@
 <div class="search-container">
 
+    <!-- <mat-form-field appearance="fill">
+        <mat-label>Ano Eleitoral</mat-label>
+        <mat-select [(value)]="atual_eleicao" (selectionChange)="onAnoEleicaoChange($event.value)">
+            <mat-option *ngFor="let eleicao of eleicoes" [value]="eleicao">
+                {{eleicao.ano}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
     <mat-form-field appearance="fill">
         <mat-label>Selecione o Estado</mat-label>
         <mat-select (selectionChange)="onEstadoChange($event.value)">
@@ -21,7 +30,7 @@
     <mat-form-field appearance="fill">
         <mat-label>Selecione o Cargo</mat-label>
         <mat-select (selectionChange)="onCargosChange($event.value)">
-            <mat-option *ngFor="let cargo of cargos" [value]="cargo.valor">
+            <mat-option *ngFor="let cargo of cargos_filtrados" [value]="cargo.valor">
                 {{cargo.nome | capitalizeFirstLetters}}
             </mat-option>
         </mat-select>

@@ -10,6 +10,7 @@ import { Cargo } from '../../../core/models/Cargo';
 import { UseStatesService } from '../../../core/services/states/use-states.service';
 import { UtilService } from '../../utils/services/util.service';
 import { DialogType } from '../../enums/dialog.enum';
+import { Eleicao } from '../../../core/models/Ordinaria';
 
 @Component({
   selector: 'app-candidatos-filtro',
@@ -19,24 +20,52 @@ import { DialogType } from '../../enums/dialog.enum';
   styleUrl: './candidatos-filtro.component.scss'
 })
 export class CandidatosFiltroComponent {
-  id_eleicao = '2045202024';
-  ano_eleicao = '2024';
-
   estados: Estado[] = [];
   municipios: Municipio[] = [];
   cargos: Cargo[] = [];
-
+  cargos_filtrados: Cargo[] = [];
+  eleicoes: Eleicao[] = [];
+  atual_eleicao: Eleicao = {} as Eleicao;
 
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private utilService: UtilService) {
+    this.buscarCargos();
+    // this.buscarEleicoesOrdinarias();
     this.buscarEstados();
-    this.cargos = tseService.getCargos();
+  }
+
+  private buscarCargos(): void {
+    this.cargos = this.tseService.getCargos();
+    this.cargos_filtrados = this.cargos.filter(cargo => cargo.abrangencia === this.useStatesService.eleicao_selecionada().tipoAbrangencia);
+  }
+
+  private selecionarEleicaoAtual(): void {
+    this.useStatesService.eleicao_selecionada.set(this.eleicoes.reduce((maisRecente, eleicaoAtual) => {
+      return eleicaoAtual.ano > maisRecente.ano ? eleicaoAtual : maisRecente;
+    }, this.eleicoes[0]));
+    this.onAnoEleicaoChange(this.useStatesService.eleicao_selecionada());
+  }
+
+  private buscarEleicoesOrdinarias(): void {
+    this.tseService.getEleicoes().subscribe({
+      next: (eleicoes: Eleicao[]) => {
+        console.log(eleicoes);
+        this.eleicoes = eleicoes;
+        this.selecionarEleicaoAtual();
+      },
+      error: (error: any) => {
+        this.utilService.openDialog(DialogType.Error);
+        console.error('Erro na requisição:', error);
+      },
+      complete: () => {
+        console.info('Requisição completa');
+      }
+    });
   }
 
   private buscarEstados(): void {
-    this.tseService.getEstadosEleitorais(this.id_eleicao).subscribe({
+    this.tseService.getEstadosEleitorais(this.useStatesService.eleicao_selecionada().id).subscribe({
       next: (response: EstadosResponse) => {
-        response.ues.map((ue: { nome: string; }) => ue.nome !== 'BRASIL');
         this.estados = response.ues.filter((item: { nome: string; }) => item.nome !== 'BRASIL');
       },
       error: (error: any) => {
@@ -50,7 +79,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarMunicipios(): void {
-    this.tseService.getMunicipiosDoEstado({ id_eleicao: this.id_eleicao, sigla: this.useStatesService.selectedEstado()}).subscribe({
+    this.tseService.getMunicipiosDoEstado({ id_eleicao: this.useStatesService.eleicao_selecionada().id, sigla: this.useStatesService.selectedEstado()}).subscribe({
       next: (response: MunicipioResponse) => {
         this.municipios = response.municipios;
       },
@@ -65,7 +94,7 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarCandidatos(): void {
-    this.tseService.getCandidatos({ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
+    this.tseService.getCandidatos({ ano_eleicao: this.useStatesService.eleicao_selecionada().ano, id_eleicao: this.useStatesService.eleicao_selecionada().id, codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
       next: (response: CandidatosResponse) => {
         this.useStatesService.candidatos.set(response.candidatos.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto)));
       },
@@ -81,7 +110,6 @@ export class CandidatosFiltroComponent {
 
   onEstadoChange(sigla: string): void {
     this.useStatesService.selectedEstado.set(sigla);
-
     this.buscarMunicipios();
   }
 
@@ -90,6 +118,13 @@ export class CandidatosFiltroComponent {
 
     if (this.useStatesService.selectedCargo() !== "") this.buscarCandidatos();
   }
+
+  onAnoEleicaoChange(eleicao: Eleicao): void {
+    console.log(`Ano Eleição: `, eleicao);
+    this.useStatesService.eleicao_selecionada.set(eleicao);
+    this.cargos_filtrados = this.cargos.filter(cargo => cargo.abrangencia === eleicao.tipoAbrangencia);
+  };
+
 
   onCargosChange(valor: string): void {
     this.useStatesService.selectedCargo.set(valor);

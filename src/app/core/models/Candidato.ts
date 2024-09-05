@@ -1,3 +1,5 @@
+import { Eleicao } from "./Ordinaria";
+
 //Interfaces para detalhe de um candidato
 export interface CandidatoDetalheRequest {
     codigo_cidade: string,
@@ -53,22 +55,6 @@ export interface Partido {
     sigla: string;
     nome: string;
     sqPrestadorConta: any;
-}
-
-export interface Eleicao {
-    id: number;
-    siglaUF: string | null;
-    localidadeSgUe: string | null;
-    ano: number;
-    codigo: string | null;
-    nomeEleicao: string | null;
-    tipoEleicao: string | null;
-    turno: string | null;
-    tipoAbrangencia: string | null;
-    dataEleicao: string | null;
-    codSituacaoEleicao: string | null;
-    descricaoSituacaoEleicao: string | null;
-    descricaoEleicao: string;
 }
 
 export interface Arquivo {
@@ -196,8 +182,8 @@ export interface Candidato {
 export interface CandidatosRequest{
     codigo_cidade: string,
     codigo_cargo: string,
-    ano_eleicao: string,
-    id_eleicao: string
+    ano_eleicao: number,
+    id_eleicao: number
 }
 
 
